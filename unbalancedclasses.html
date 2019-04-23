@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://audreymychan.github.io/blog/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="stylesheet" type="text/css" href="https://audreymychan.github.io/blog/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://audreymychan.github.io/blog/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Audrey Chan">
+  <meta name="description" content="Posts and writings by Audrey Chan">
+
+  <link href="https://audreymychan.github.io/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Audrey Chan Atom" />
+
+<meta name="keywords" content="imblearn">
+
+  <title>
+    Audrey Chan
+&ndash; How to Handle Unbalanced Classes: imbalanced-learn  </title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://audreymychan.github.io/blog">
+        <img src="https://audreymychan.github.io/blog/theme/images/logo.png" alt="logo">
+      </a>
+      <h2><a href="https://audreymychan.github.io/blog">Audrey Chan</a></h2>
+      <p></p>
+      <ul>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://audreymychan.github.io/blog">Index</a> &brvbar; <a href="https://audreymychan.github.io/blog/archives.html">Archives</a>
+      &brvbar; <a href="https://audreymychan.github.io/blog/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h1><a href="https://audreymychan.github.io/blog/unbalancedclasses.html">How to Handle Unbalanced Classes: imbalanced-learn</a></h1>
+  </div>
+  <div class="article_text">
+    <p>In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost constraints. For example, if you consider classification problems such as non-fraud vs fraud and no-cancer vs cancer, fraudulent transactions and cancer patients are more rare than normal transactions and healthy patients. Other examples include oil spill detection, network intrusion detection, other rare diseases, etc.</p>
+<h2>Challenges</h2>
+<p>Machine learning algorithms are built to minimize errors. For unbalanced datasets, since instances of the majority class is outnumbering the minority classes, the classifiers will more likely classify new data to the majority class. </p>
+<p>For example, if you had a dataset with 90% no-cancer (healthy) and 10% cancer, the classifier will be bias to classify a new person as having no-cancer (healthy) as it would be 90% accurate. This leads to <code>False Negatives</code>, which in the case of cancer, could be seen as more costly than having <code>False Positives</code>! A patient is told they don't have cancer, when they actually do... do you see the problem here?</p>
+<h2>So, what can we do?</h2>
+<p>Here are some techniques you can consider when dealing with unbalanced classes. We will further elaborate and explore the imbalanced-learn API.
+1. <strong>Weigh observations</strong> - Some models allow for hyperparameter tweaking of <code>class_weight</code> (i.e. Logistic Regression, Random Forests, SVMs)</p>
+<ol>
+<li>
+<p>Change the algorithm - For example, decision trees perform well on unbalanced classes</p>
+</li>
+<li>
+<p>Purposely optimize between <strong>evaluation metrics</strong> - Consider optimizing for specific metrics other than accuracy, such as <code>precision</code> and <code>recall</code> (<a href="https://en.wikipedia.org/wiki/Precision_and_recall#/media/File:Precisionrecall.svg">img url</a>)</p>
+</li>
+</ol>
+<p><img alt="" src="https://audreymychan.github.io/blog/images/precisionrecall.svg"></p>
+<ol>
+<li><strong>Re-sampling</strong> with imbalanced-learn</li>
+</ol>
+<h2>Re-sample with imbalanced-learn</h2>
+<p><code>imbalanced-learn</code> is a python package offering a number of re-sampling techniques commonly used in datasets showing strong between-class imbalance. It includes strategies for undersampling, oversampling, and a combination of both. </p>
+<p>Here we will:
+- Generate our own imbalance datasets
+- Use Altair to visual how different imlearn strategies impact our classification predictions (y_pred), and
+- Consider how it impacts <code>accuracy</code>, <code>precision</code> and <code>recall</code> scores</p>
+<p>We will be making predictions using a Logistic Regression model throughout as an example.</p>
+<div class="highlight"><pre><span></span><span class="c1"># Import librairies</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">altair</span> <span class="kn">as</span> <span class="nn">alt</span>
+<span class="n">alt</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="s1">&#39;notebook&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span>
+
+<span class="kn">from</span> <span class="nn">imblearn.over_sampling</span> <span class="kn">import</span> <span class="n">SMOTE</span><span class="p">,</span> <span class="n">ADASYN</span><span class="p">,</span> <span class="n">BorderlineSMOTE</span><span class="p">,</span> <span class="n">SVMSMOTE</span>
+<span class="kn">from</span> <span class="nn">imblearn.combine</span> <span class="kn">import</span> <span class="n">SMOTETomek</span><span class="p">,</span> <span class="n">SMOTEENN</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># Generate an imbalanced dataset</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_samples</span> <span class="o">=</span> <span class="mi">1</span><span class="n">_000</span><span class="p">,</span> <span class="n">n_features</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n_informative</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">n_redundant</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n_repeated</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n_classes</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">n_clusters_per_class</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">],</span>
+    <span class="n">class_sep</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># Method to generate scatter plot, color labeling the 3 classes</span>
+<span class="k">def</span> <span class="nf">alt_chart</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x1&#39;</span><span class="p">:</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
+                   <span class="s1">&#39;x2&#39;</span><span class="p">:</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+                   <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">y</span>
+                 <span class="p">})</span>
+    <span class="k">return</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;x1&#39;</span><span class="p">,</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s1">&#39;y:N&#39;</span><span class="p">,</span>
+              <span class="n">scale</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">domain</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">],</span>
+                          <span class="nb">range</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">])),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">title</span><span class="p">,</span> 
+        <span class="n">width</span> <span class="o">=</span> <span class="mi">250</span><span class="p">,</span> 
+        <span class="n">height</span> <span class="o">=</span> <span class="mi">150</span>
+    <span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># Method to rebalance train data, model a logistic regression, and output charts for predictions on test data</span>
+<span class="c1"># Inputs: X data, y data, rebalance algorithm (i.e. SMOTE()), rebalancing_title as a str (i.e. &#39;SMOTE&#39;)</span>
+<span class="k">def</span> <span class="nf">rebalance_train_test_logreg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">rebalance_alg</span><span class="p">,</span> <span class="n">rebalancing_title</span><span class="p">):</span>
+
+    <span class="c1"># Split the data</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">42</span><span class="p">)</span>
+
+    <span class="c1"># Rebalance train data</span>
+    <span class="n">rebalance</span> <span class="o">=</span> <span class="n">rebalance_alg</span>
+    <span class="n">X_reb</span><span class="p">,</span> <span class="n">y_reb</span> <span class="o">=</span> <span class="n">rebalance</span><span class="o">.</span><span class="n">fit_sample</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="c1"># Train a Logistic Regression model on resampled data</span>
+    <span class="n">logreg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">solver</span> <span class="o">=</span> <span class="s1">&#39;lbfgs&#39;</span><span class="p">,</span> <span class="n">multi_class</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+    <span class="n">logreg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_reb</span><span class="p">,</span> <span class="n">y_reb</span><span class="p">)</span>
+
+    <span class="c1"># Generate predictions</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">logreg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+    <span class="c1"># Generate charts</span>
+    <span class="n">left_top</span> <span class="o">=</span> <span class="n">alt_chart</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="s1">&#39;y_train&#39;</span><span class="p">)</span>
+    <span class="n">right_top</span> <span class="o">=</span> <span class="n">alt_chart</span><span class="p">(</span><span class="n">X_reb</span><span class="p">,</span> <span class="n">y_reb</span><span class="p">,</span> <span class="s1">&#39;y_train_resampled&#39;</span><span class="p">)</span>
+    <span class="n">top</span> <span class="o">=</span> <span class="n">left_top</span> <span class="o">|</span> <span class="n">right_top</span>
+
+    <span class="n">left_bottom</span> <span class="o">=</span> <span class="n">alt_chart</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="s1">&#39;y_test&#39;</span><span class="p">)</span>
+    <span class="n">right_bottom</span> <span class="o">=</span> <span class="n">alt_chart</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;y_pred ({rebalancing_title})&#39;</span><span class="p">)</span>
+    <span class="n">bottom</span> <span class="o">=</span> <span class="n">left_bottom</span> <span class="o">|</span> <span class="n">right_bottom</span>
+
+    <span class="c1"># Print out metrics</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Accuracy Score: {accuracy_score(y_test, y_pred)}&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Precision Score: {precision_score(y_test, y_pred, average = None)}&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Recall Score: {recall_score(y_test, y_pred, average = None)}&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">top</span> <span class="o">&amp;</span> <span class="n">bottom</span>
+</pre></div>
+
+
+<p>Before we dive into resampling our data, let's see how a logistic regression model would do with our original dataset.</p>
+<h2>Original (unbalanced) Dataset</h2>
+<div class="highlight"><pre><span></span><span class="c1"># predictions without resampling</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">42</span><span class="p">)</span>
+<span class="n">logreg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">solver</span> <span class="o">=</span> <span class="s1">&#39;lbfgs&#39;</span><span class="p">,</span> <span class="n">multi_class</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="n">logreg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">logreg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">left</span> <span class="o">=</span> <span class="n">alt_chart</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="s1">&#39;y_test&#39;</span><span class="p">)</span>
+<span class="n">right</span> <span class="o">=</span> <span class="n">alt_chart</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;y_pred (no resampling)&#39;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Accuracy Score: {accuracy_score(y_test, y_pred)}&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Precision Score: {precision_score(y_test, y_pred, average = None)}&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Recall Score: {recall_score(y_test, y_pred, average = None)}&#39;</span><span class="p">)</span>
+
+<span class="n">left</span> <span class="o">|</span> <span class="n">right</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Accuracy Score: 0.965
+ Precision Score: [0.         0.85714286 0.96891192]
+ Recall Score: [0.         0.66666667 0.99468085]
+
+
+/Users/audreymychan/anaconda3/lib/python3.6/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples.
+  &#39;precision&#39;, &#39;predicted&#39;, average, warn_for)
+
+
+
+&lt;vega.vegalite.VegaLite at 0x1a174a0e10&gt;
+</pre></div>
+
+
+<p><img alt="png" src="images/unbalancedclasses_13_4.png"></p>
+<p>As you can see this is problematic when making predictions on the test data. Even though the accuracy score is high, our model can not identify Class 0 at all (no blue dot present) and some of the Class 1 data are being predicted as Class 2. </p>
+<h2>Over-sampling Methods</h2>
+<p>For more information on how samples are generated using these different methods, you can refer to <a href="https://imbalanced-learn.readthedocs.io/en/stable/over_sampling.html#mathematical-formulation">imblearn's documentation</a>. </p>
+<h3>1. SMOTE</h3>
+<p>SMOTE stands for <em>Synthetic Minority Over-sampling Technique</em>. It generates new synthetic samples by interpolation (focused on connecting inliers and outliers), adding random points between the n-nearest neighbors (default = 5, a hyperparameter that can be tweaked) in the minority class and each of the samples in that class (<a href="https://www.researchgate.net/publication/287601878/figure/fig1/AS:316826589384744@1452548753581/The-schematic-of-NRSBoundary-SMOTE-algorithm.png">img url</a>).</p>
+<p><img alt="" src="https://audreymychan.github.io/blog/images/SMOTE.png"></p>
+<div class="highlight"><pre><span></span><span class="n">rebalance_train_test_logreg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">SMOTE</span><span class="p">(),</span> <span class="s1">&#39;SMOTE&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Accuracy Score: 0.78
+ Precision Score: [0.06896552 0.33333333 0.99319728]
+ Recall Score: [0.66666667 0.88888889 0.77659574]
+
+
+
+&lt;vega.vegalite.VegaLite at 0x1a174a0d30&gt;
+</pre></div>
+
+
+<p><img alt="png" src="images/unbalancedclasses_16_3.png"></p>
+<p>Compared to the unbalanced classes, here we can identify some of the blue (Class 0) dots. That's why the recall score for that Class increased from 0 to 0.67. However, you can see that with this method, it also over identifies the blue (Class 0) and yellow (Class 1) dots. This can also be shown by lower precision scores for these two classes. </p>
+<h3>2. ADASYN</h3>
+<p>ADASYN stands for <em>Adaptive Synthetic</em>, a slightly improved method from SMOTE. ADASYN works in a similiar way by interpolation, but focuses on generating synthetic samples next to original samples that are harder to learn than those that are easier to learn (focusing on outliers). Hence, this helps to shift the classification decision boundary towards the difficult samples.</p>
+<div class="highlight"><pre><span></span><span class="n">rebalance_train_test_logreg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ADASYN</span><span class="p">(),</span> <span class="s1">&#39;ADASYN&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Accuracy Score: 0.725
+ Precision Score: [0.06060606 0.28125    0.99259259]
+ Recall Score: [0.66666667 1.         0.71276596]
+
+
+
+&lt;vega.vegalite.VegaLite at 0x1a174a0e10&gt;
+</pre></div>
+
+
+<p><img alt="png" src="images/unbalancedclasses_19_3.png"></p>
+<p>The predictions looks very similar after resampling with ADASYN looks very similar to SMOTE, maybe a few more yellow (Class 1) data are now being predicted correctly. </p>
+<h3>3. BorderlineSMOTE</h3>
+<p>BorderlineSMOTE is a variant of SMOTE, a method focused on samples near of the border of the optimal decision function and will generate samples in the opposite direction of the nearest neighbors class.</p>
+<div class="highlight"><pre><span></span><span class="n">rebalance_train_test_logreg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">BorderlineSMOTE</span><span class="p">(),</span> <span class="s1">&#39;BorderlineSMOTE&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Accuracy Score: 0.95
+ Precision Score: [0.4        0.54545455 0.98913043]
+ Recall Score: [0.66666667 0.66666667 0.96808511]
+
+
+
+&lt;vega.vegalite.VegaLite at 0x10392ef98&gt;
+</pre></div>
+
+
+<p><img alt="png" src="images/unbalancedclasses_22_3.png"></p>
+<p>Predictions don't look too bad! An improvement from SMOTE and ADASYN. Accuracy score has increased to 0.955 but also the precision and recall scores for the minority Classes also increased on average.  </p>
+<h2>Combination of Over-sampling and Under-sampling</h2>
+<p>With SMOTE above, you can see that the data got a lot noisier. If you choose to do so, under-sampling (after over-sampling) can help to clean this up in hopes to better our predictions. More information can be found in <a href="https://imbalanced-learn.readthedocs.io/en/stable/combine.html">imlearn's documentation</a>.</p>
+<h3>1. SMOTETomek</h3>
+<p>This method applies the SMOTE method described above then undersamples based on <code>Tomek's link</code>. A Tomek’s link exist if the two samples (from different classes) are the nearest neighbors of each other. Based on selection for the hyperparameter <code>sampling_strategy</code>, this removes one to all of the samples in the link (default: 'auto', which removes samples from the majority class).</p>
+<p>Alternatively, you can choose to resample the data by only undersampling using <code>imblearn.under_sampling.TomekLinks</code> (without oversampling with SMOTE first) (<a href="https://imbalanced-learn.readthedocs.io/en/stable/_images/sphx_glr_plot_illustration_tomek_links_001.png">img url</a>).</p>
+<p><img alt="" src="https://audreymychan.github.io/blog/images/Tomek.png"></p>
+<div class="highlight"><pre><span></span><span class="n">rebalance_train_test_logreg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">SMOTETomek</span><span class="p">(),</span> <span class="s1">&#39;SMOTETomek&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Accuracy Score: 0.77
+ Precision Score: [0.0625     0.31818182 0.99315068]
+ Recall Score: [0.66666667 0.77777778 0.7712766 ]
+
+
+
+&lt;vega.vegalite.VegaLite at 0x1a17488ef0&gt;
+</pre></div>
+
+
+<p><img alt="png" src="images/unbalancedclasses_25_3.png"></p>
+<h3>2. SMOTEENN</h3>
+<p>This method applies the SMOTE method described above then undersamples based on <code>EditedNearestNeighbours</code>, which applies a nearest-neighbors algorithm and removes samples if they do not agree “enough” with their neighboorhood.</p>
+<p>Two selection criteria are currently available:
+- <code>kind_sel</code> = 'mode', the majority vote of the neighbours will be used in order to exclude a sample
+- <code>kind_sel</code> = 'all', all neighbours will have to agree with the samples of interest to not be excluded</p>
+<p>Alternatively, you can choose to resample the data by only undersampled using <code>imblearn.under_sampling.EditedNearestNeighbours</code> (without oversampling with SMOTE first). </p>
+<div class="highlight"><pre><span></span><span class="n">rebalance_train_test_logreg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">SMOTEENN</span><span class="p">(),</span> <span class="s1">&#39;SMOTEENN&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Accuracy Score: 0.68
+ Precision Score: [0.03571429 0.4375     0.9921875 ]
+ Recall Score: [0.66666667 0.77777778 0.67553191]
+
+
+
+&lt;vega.vegalite.VegaLite at 0x1a17ac34a8&gt;
+</pre></div>
+
+
+<p><img alt="png" src="images/unbalancedclasses_27_3.png"></p>
+<h2>Conclusion</h2>
+<p>We've only covered a handful of resampling methods offered from <code>imblearn</code> (<a href="https://imbalanced-learn.readthedocs.io/en/stable/api.html#">the full list</a>). For tackling unbalanced classes, resampling is also only one possible solution amongst other mentioned earlier:
+1. Weight observations</p>
+<ol>
+<li>
+<p>Consider other metrics (i.e. precision, recall, ROC AUC)</p>
+</li>
+<li>
+<p>Change the algorithm</p>
+</li>
+</ol>
+<p>You should always try different approaches and see which one works best for different problems!</p>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Mon 15 April 2019</p>
+    <p>Category: <a href="https://audreymychan.github.io/blog/category/misc.html">misc</a>
+ &ndash; Tags:
+      <a href="https://audreymychan.github.io/blog/tag/imblearn.html">imblearn</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>&copy; Audrey Chan. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. Theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack" target="_blank">github</a>. </p>
+    </div>
+  </main>
+</body>
+</html>
