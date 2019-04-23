@@ -56,9 +56,11 @@
 <p>Machine learning algorithms are built to minimize errors. For unbalanced datasets, since instances of the majority class is outnumbering the minority classes, the classifiers will more likely classify new data to the majority class. </p>
 <p>For example, if you had a dataset with 90% no-cancer (healthy) and 10% cancer, the classifier will be bias to classify a new person as having no-cancer (healthy) as it would be 90% accurate. This leads to <code>False Negatives</code>, which in the case of cancer, could be seen as more costly than having <code>False Positives</code>! A patient is told they don't have cancer, when they actually do... do you see the problem here?</p>
 <h2>So, what can we do?</h2>
-<p>Here are some techniques you can consider when dealing with unbalanced classes. We will further elaborate and explore the imbalanced-learn API.
-1. <strong>Weigh observations</strong> - Some models allow for hyperparameter tweaking of <code>class_weight</code> (i.e. Logistic Regression, Random Forests, SVMs)</p>
+<p>Here are some techniques you can consider when dealing with unbalanced classes. We will further elaborate and explore the imbalanced-learn API.</p>
 <ol>
+<li>
+<p><strong>Weigh observations</strong> - Some models allow for hyperparameter tweaking of <code>class_weight</code> (i.e. Logistic Regression, Random Forests, SVMs)</p>
+</li>
 <li>
 <p>Change the algorithm - For example, decision trees perform well on unbalanced classes</p>
 </li>
@@ -72,10 +74,18 @@
 </ol>
 <h2>Re-sample with imbalanced-learn</h2>
 <p><code>imbalanced-learn</code> is a python package offering a number of re-sampling techniques commonly used in datasets showing strong between-class imbalance. It includes strategies for undersampling, oversampling, and a combination of both. </p>
-<p>Here we will:
-- Generate our own imbalance datasets
-- Use Altair to visual how different imlearn strategies impact our classification predictions (y_pred), and
-- Consider how it impacts <code>accuracy</code>, <code>precision</code> and <code>recall</code> scores</p>
+<p>Here we will:</p>
+<ul>
+<li>
+<p>Generate our own imbalance datasets</p>
+</li>
+<li>
+<p>Use Altair to visual how different imlearn strategies impact our classification predictions (y_pred), and</p>
+</li>
+<li>
+<p>Consider how it impacts <code>accuracy</code>, <code>precision</code> and <code>recall</code> scores</p>
+</li>
+</ul>
 <p>We will be making predictions using a Logistic Regression model throughout as an example.</p>
 <div class="highlight"><pre><span></span><span class="c1"># Import librairies</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
@@ -185,11 +195,11 @@
 
 
 
-&lt;vega.vegalite.VegaLite at 0x1a174a0e10&gt;
+&lt;vega.vegalite.VegaLite at 0x1066804e0&gt;
 </pre></div>
 
 
-<p><img alt="png" src="images/unbalancedclasses_13_4.png"></p>
+<p><img alt="png" src="images/unbalancedclasses_19_4.png"></p>
 <p>As you can see this is problematic when making predictions on the test data. Even though the accuracy score is high, our model can not identify Class 0 at all (no blue dot present) and some of the Class 1 data are being predicted as Class 2. </p>
 <h2>Over-sampling Methods</h2>
 <p>For more information on how samples are generated using these different methods, you can refer to <a href="https://imbalanced-learn.readthedocs.io/en/stable/over_sampling.html#mathematical-formulation">imblearn's documentation</a>. </p>
@@ -201,16 +211,16 @@
 
 
 <div class="highlight"><pre><span></span> Accuracy Score: 0.78
- Precision Score: [0.06896552 0.33333333 0.99319728]
+ Precision Score: [0.06666667 0.34782609 0.99319728]
  Recall Score: [0.66666667 0.88888889 0.77659574]
 
 
 
-&lt;vega.vegalite.VegaLite at 0x1a174a0d30&gt;
+&lt;vega.vegalite.VegaLite at 0x1a1b2d4780&gt;
 </pre></div>
 
 
-<p><img alt="png" src="images/unbalancedclasses_16_3.png"></p>
+<p><img alt="png" src="images/unbalancedclasses_23_3.png"></p>
 <p>Compared to the unbalanced classes, here we can identify some of the blue (Class 0) dots. That's why the recall score for that Class increased from 0 to 0.67. However, you can see that with this method, it also over identifies the blue (Class 0) and yellow (Class 1) dots. This can also be shown by lower precision scores for these two classes. </p>
 <h3>2. ADASYN</h3>
 <p>ADASYN stands for <em>Adaptive Synthetic</em>, a slightly improved method from SMOTE. ADASYN works in a similiar way by interpolation, but focuses on generating synthetic samples next to original samples that are harder to learn than those that are easier to learn (focusing on outliers). Hence, this helps to shift the classification decision boundary towards the difficult samples.</p>
@@ -224,11 +234,11 @@
 
 
 
-&lt;vega.vegalite.VegaLite at 0x1a174a0e10&gt;
+&lt;vega.vegalite.VegaLite at 0x1a1b6bc5f8&gt;
 </pre></div>
 
 
-<p><img alt="png" src="images/unbalancedclasses_19_3.png"></p>
+<p><img alt="png" src="images/unbalancedclasses_26_3.png"></p>
 <p>The predictions looks very similar after resampling with ADASYN looks very similar to SMOTE, maybe a few more yellow (Class 1) data are now being predicted correctly. </p>
 <h3>3. BorderlineSMOTE</h3>
 <p>BorderlineSMOTE is a variant of SMOTE, a method focused on samples near of the border of the optimal decision function and will generate samples in the opposite direction of the nearest neighbors class.</p>
@@ -236,17 +246,17 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span> Accuracy Score: 0.95
- Precision Score: [0.4        0.54545455 0.98913043]
- Recall Score: [0.66666667 0.66666667 0.96808511]
+<div class="highlight"><pre><span></span> Accuracy Score: 0.955
+ Precision Score: [0.5        0.58333333 0.98913043]
+ Recall Score: [0.66666667 0.77777778 0.96808511]
 
 
 
-&lt;vega.vegalite.VegaLite at 0x10392ef98&gt;
+&lt;vega.vegalite.VegaLite at 0x1a1b9d1cf8&gt;
 </pre></div>
 
 
-<p><img alt="png" src="images/unbalancedclasses_22_3.png"></p>
+<p><img alt="png" src="images/unbalancedclasses_29_3.png"></p>
 <p>Predictions don't look too bad! An improvement from SMOTE and ADASYN. Accuracy score has increased to 0.955 but also the precision and recall scores for the minority Classes also increased on average.  </p>
 <h2>Combination of Over-sampling and Under-sampling</h2>
 <p>With SMOTE above, you can see that the data got a lot noisier. If you choose to do so, under-sampling (after over-sampling) can help to clean this up in hopes to better our predictions. More information can be found in <a href="https://imbalanced-learn.readthedocs.io/en/stable/combine.html">imlearn's documentation</a>.</p>
@@ -259,41 +269,49 @@
 
 
 <div class="highlight"><pre><span></span> Accuracy Score: 0.77
- Precision Score: [0.0625     0.31818182 0.99315068]
- Recall Score: [0.66666667 0.77777778 0.7712766 ]
+ Precision Score: [0.0625     0.34782609 0.99310345]
+ Recall Score: [0.66666667 0.88888889 0.76595745]
 
 
 
-&lt;vega.vegalite.VegaLite at 0x1a17488ef0&gt;
+&lt;vega.vegalite.VegaLite at 0x107e77f28&gt;
 </pre></div>
 
 
-<p><img alt="png" src="images/unbalancedclasses_25_3.png"></p>
+<p><img alt="png" src="images/unbalancedclasses_33_3.png"></p>
 <h3>2. SMOTEENN</h3>
 <p>This method applies the SMOTE method described above then undersamples based on <code>EditedNearestNeighbours</code>, which applies a nearest-neighbors algorithm and removes samples if they do not agree “enough” with their neighboorhood.</p>
-<p>Two selection criteria are currently available:
-- <code>kind_sel</code> = 'mode', the majority vote of the neighbours will be used in order to exclude a sample
-- <code>kind_sel</code> = 'all', all neighbours will have to agree with the samples of interest to not be excluded</p>
+<p>Two selection criteria are currently available:</p>
+<ul>
+<li>
+<p><code>kind_sel</code> = 'mode', the majority vote of the neighbours will be used in order to exclude a sample</p>
+</li>
+<li>
+<p><code>kind_sel</code> = 'all', all neighbours will have to agree with the samples of interest to not be excluded</p>
+</li>
+</ul>
 <p>Alternatively, you can choose to resample the data by only undersampled using <code>imblearn.under_sampling.EditedNearestNeighbours</code> (without oversampling with SMOTE first). </p>
 <div class="highlight"><pre><span></span><span class="n">rebalance_train_test_logreg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">SMOTEENN</span><span class="p">(),</span> <span class="s1">&#39;SMOTEENN&#39;</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span> Accuracy Score: 0.68
- Precision Score: [0.03571429 0.4375     0.9921875 ]
- Recall Score: [0.66666667 0.77777778 0.67553191]
+<div class="highlight"><pre><span></span> Accuracy Score: 0.72
+ Precision Score: [0.04545455 0.35       0.99264706]
+ Recall Score: [0.66666667 0.77777778 0.71808511]
 
 
 
-&lt;vega.vegalite.VegaLite at 0x1a17ac34a8&gt;
+&lt;vega.vegalite.VegaLite at 0x1a1bf95470&gt;
 </pre></div>
 
 
-<p><img alt="png" src="images/unbalancedclasses_27_3.png"></p>
+<p><img alt="png" src="images/unbalancedclasses_38_3.png"></p>
 <h2>Conclusion</h2>
-<p>We've only covered a handful of resampling methods offered from <code>imblearn</code> (<a href="https://imbalanced-learn.readthedocs.io/en/stable/api.html#">the full list</a>). For tackling unbalanced classes, resampling is also only one possible solution amongst other mentioned earlier:
-1. Weight observations</p>
+<p>We've only covered a handful of resampling methods offered from <code>imblearn</code> (<a href="https://imbalanced-learn.readthedocs.io/en/stable/api.html#">the full list</a>). For tackling unbalanced classes, resampling is also only one possible solution amongst other mentioned earlier:</p>
 <ol>
+<li>
+<p>Weigh observations</p>
+</li>
 <li>
 <p>Consider other metrics (i.e. precision, recall, ROC AUC)</p>
 </li>

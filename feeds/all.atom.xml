@@ -4,9 +4,11 @@
 &lt;p&gt;Machine learning algorithms are built to minimize errors. For unbalanced datasets, since instances of the majority class is outnumbering the minority classes, the classifiers will more likely classify new data to the majority class. &lt;/p&gt;
 &lt;p&gt;For example, if you had a dataset with 90% no-cancer (healthy) and 10% cancer, the classifier will be bias to classify a new person as having no-cancer (healthy) as it would be 90% accurate. This leads to &lt;code&gt;False Negatives&lt;/code&gt;, which in the case of cancer, could be seen as more costly than having &lt;code&gt;False Positives&lt;/code&gt;! A patient is told they don't have cancer, when they actually do... do you see the problem here?&lt;/p&gt;
 &lt;h2&gt;So, what can we do?&lt;/h2&gt;
-&lt;p&gt;Here are some techniques you can consider when dealing with unbalanced classes. We will further elaborate and explore the imbalanced-learn API.
-1. &lt;strong&gt;Weigh observations&lt;/strong&gt; - Some models allow for hyperparameter tweaking of &lt;code&gt;class_weight&lt;/code&gt; (i.e. Logistic Regression, Random Forests, SVMs)&lt;/p&gt;
+&lt;p&gt;Here are some techniques you can consider when dealing with unbalanced classes. We will further elaborate and explore the imbalanced-learn API.&lt;/p&gt;
 &lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Weigh observations&lt;/strong&gt; - Some models allow for hyperparameter tweaking of &lt;code&gt;class_weight&lt;/code&gt; (i.e. Logistic Regression, Random Forests, SVMs)&lt;/p&gt;
+&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Change the algorithm - For example, decision trees perform well on unbalanced classes&lt;/p&gt;
 &lt;/li&gt;
@@ -20,10 +22,18 @@
 &lt;/ol&gt;
 &lt;h2&gt;Re-sample with imbalanced-learn&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;imbalanced-learn&lt;/code&gt; is a python package offering a number of re-sampling techniques commonly used in datasets showing strong between-class imbalance. It includes strategies for undersampling, oversampling, and a combination of both. &lt;/p&gt;
-&lt;p&gt;Here we will:
-- Generate our own imbalance datasets
-- Use Altair to visual how different imlearn strategies impact our classification predictions (y_pred), and
-- Consider how it impacts &lt;code&gt;accuracy&lt;/code&gt;, &lt;code&gt;precision&lt;/code&gt; and &lt;code&gt;recall&lt;/code&gt; scores&lt;/p&gt;
+&lt;p&gt;Here we will:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Generate our own imbalance datasets&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use Altair to visual how different imlearn strategies impact our classification predictions (y_pred), and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Consider how it impacts &lt;code&gt;accuracy&lt;/code&gt;, &lt;code&gt;precision&lt;/code&gt; and &lt;code&gt;recall&lt;/code&gt; scores&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;We will be making predictions using a Logistic Regression model throughout as an example.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Import librairies&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
@@ -133,11 +143,11 @@
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a174a0e10&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1066804e0&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_13_4.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_19_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;As you can see this is problematic when making predictions on the test data. Even though the accuracy score is high, our model can not identify Class 0 at all (no blue dot present) and some of the Class 1 data are being predicted as Class 2. &lt;/p&gt;
 &lt;h2&gt;Over-sampling Methods&lt;/h2&gt;
 &lt;p&gt;For more information on how samples are generated using these different methods, you can refer to &lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/over_sampling.html#mathematical-formulation"&gt;imblearn's documentation&lt;/a&gt;. &lt;/p&gt;
@@ -149,16 +159,16 @@
 
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.78
- Precision Score: [0.06896552 0.33333333 0.99319728]
+ Precision Score: [0.06666667 0.34782609 0.99319728]
  Recall Score: [0.66666667 0.88888889 0.77659574]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a174a0d30&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a1b2d4780&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_16_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_23_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;Compared to the unbalanced classes, here we can identify some of the blue (Class 0) dots. That's why the recall score for that Class increased from 0 to 0.67. However, you can see that with this method, it also over identifies the blue (Class 0) and yellow (Class 1) dots. This can also be shown by lower precision scores for these two classes. &lt;/p&gt;
 &lt;h3&gt;2. ADASYN&lt;/h3&gt;
 &lt;p&gt;ADASYN stands for &lt;em&gt;Adaptive Synthetic&lt;/em&gt;, a slightly improved method from SMOTE. ADASYN works in a similiar way by interpolation, but focuses on generating synthetic samples next to original samples that are harder to learn than those that are easier to learn (focusing on outliers). Hence, this helps to shift the classification decision boundary towards the difficult samples.&lt;/p&gt;
@@ -172,11 +182,11 @@
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a174a0e10&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a1b6bc5f8&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_19_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_26_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;The predictions looks very similar after resampling with ADASYN looks very similar to SMOTE, maybe a few more yellow (Class 1) data are now being predicted correctly. &lt;/p&gt;
 &lt;h3&gt;3. BorderlineSMOTE&lt;/h3&gt;
 &lt;p&gt;BorderlineSMOTE is a variant of SMOTE, a method focused on samples near of the border of the optimal decision function and will generate samples in the opposite direction of the nearest neighbors class.&lt;/p&gt;
@@ -184,17 +194,17 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.95
- Precision Score: [0.4        0.54545455 0.98913043]
- Recall Score: [0.66666667 0.66666667 0.96808511]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.955
+ Precision Score: [0.5        0.58333333 0.98913043]
+ Recall Score: [0.66666667 0.77777778 0.96808511]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x10392ef98&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a1b9d1cf8&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_22_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_29_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;Predictions don't look too bad! An improvement from SMOTE and ADASYN. Accuracy score has increased to 0.955 but also the precision and recall scores for the minority Classes also increased on average.  &lt;/p&gt;
 &lt;h2&gt;Combination of Over-sampling and Under-sampling&lt;/h2&gt;
 &lt;p&gt;With SMOTE above, you can see that the data got a lot noisier. If you choose to do so, under-sampling (after over-sampling) can help to clean this up in hopes to better our predictions. More information can be found in &lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/combine.html"&gt;imlearn's documentation&lt;/a&gt;.&lt;/p&gt;
@@ -207,41 +217,49 @@
 
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.77
- Precision Score: [0.0625     0.31818182 0.99315068]
- Recall Score: [0.66666667 0.77777778 0.7712766 ]
+ Precision Score: [0.0625     0.34782609 0.99310345]
+ Recall Score: [0.66666667 0.88888889 0.76595745]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a17488ef0&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x107e77f28&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_25_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_33_3.png"&gt;&lt;/p&gt;
 &lt;h3&gt;2. SMOTEENN&lt;/h3&gt;
 &lt;p&gt;This method applies the SMOTE method described above then undersamples based on &lt;code&gt;EditedNearestNeighbours&lt;/code&gt;, which applies a nearest-neighbors algorithm and removes samples if they do not agree “enough” with their neighboorhood.&lt;/p&gt;
-&lt;p&gt;Two selection criteria are currently available:
-- &lt;code&gt;kind_sel&lt;/code&gt; = 'mode', the majority vote of the neighbours will be used in order to exclude a sample
-- &lt;code&gt;kind_sel&lt;/code&gt; = 'all', all neighbours will have to agree with the samples of interest to not be excluded&lt;/p&gt;
+&lt;p&gt;Two selection criteria are currently available:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;kind_sel&lt;/code&gt; = 'mode', the majority vote of the neighbours will be used in order to exclude a sample&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;kind_sel&lt;/code&gt; = 'all', all neighbours will have to agree with the samples of interest to not be excluded&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;Alternatively, you can choose to resample the data by only undersampled using &lt;code&gt;imblearn.under_sampling.EditedNearestNeighbours&lt;/code&gt; (without oversampling with SMOTE first). &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;rebalance_train_test_logreg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SMOTEENN&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;SMOTEENN&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.68
- Precision Score: [0.03571429 0.4375     0.9921875 ]
- Recall Score: [0.66666667 0.77777778 0.67553191]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.72
+ Precision Score: [0.04545455 0.35       0.99264706]
+ Recall Score: [0.66666667 0.77777778 0.71808511]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a17ac34a8&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a1bf95470&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_27_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_38_3.png"&gt;&lt;/p&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;We've only covered a handful of resampling methods offered from &lt;code&gt;imblearn&lt;/code&gt; (&lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/api.html#"&gt;the full list&lt;/a&gt;). For tackling unbalanced classes, resampling is also only one possible solution amongst other mentioned earlier:
-1. Weight observations&lt;/p&gt;
+&lt;p&gt;We've only covered a handful of resampling methods offered from &lt;code&gt;imblearn&lt;/code&gt; (&lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/api.html#"&gt;the full list&lt;/a&gt;). For tackling unbalanced classes, resampling is also only one possible solution amongst other mentioned earlier:&lt;/p&gt;
 &lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Weigh observations&lt;/p&gt;
+&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Consider other metrics (i.e. precision, recall, ROC AUC)&lt;/p&gt;
 &lt;/li&gt;
@@ -440,15 +458,17 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x1135a19e8&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x117255b00&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="png" src="images/languages_19_2.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a id='multi_series_line_chart'&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;Tips and Tricks (make it easier to see!)&lt;/h4&gt;
-&lt;p&gt;That's a bit hard to see on one page... we can play around with the following:
-1. &lt;strong&gt;Date format on x-axis:&lt;/strong&gt; Change the data type of column &lt;code&gt;Month&lt;/code&gt; to &lt;code&gt;datetime64[ns]&lt;/code&gt; using &lt;code&gt;pd.to_datetime()&lt;/code&gt; to reduce the noise on the x-axis.&lt;/p&gt;
+&lt;p&gt;That's a bit hard to see on one page... we can play around with the following:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Date format on x-axis:&lt;/strong&gt; Change the data type of column &lt;code&gt;Month&lt;/code&gt; to &lt;code&gt;datetime64[ns]&lt;/code&gt; using &lt;code&gt;pd.to_datetime()&lt;/code&gt; to reduce the noise on the x-axis.&lt;/li&gt;
+&lt;/ol&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;long&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Month&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_datetime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;long&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Month&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -471,11 +491,11 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x1135a1a90&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x117308dd8&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/languages_23_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_24_2.png"&gt;&lt;/p&gt;
 &lt;h2&gt;Spoken Languages&lt;/h2&gt;
 &lt;hr&gt;
 &lt;p&gt;On the other hand, there are &lt;strong&gt;7,111 living spoken languages&lt;/strong&gt; that we know of to date according to &lt;a href="https://www.ethnologue.com/"&gt;Ethnologue 2019, 22nd edition&lt;/a&gt;! I am supposedly trilingual but admittedly don't keep up the practice! I always wonder if I should be keeping up with these spoken languages... Spoken (or programming) languages are constantly evolving and their popularity shaped by the people and technolgies around the world.&lt;/p&gt;
@@ -671,11 +691,11 @@ dtype: object
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x113667ac8&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x1173089b0&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/languages_37_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_38_2.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a id='stacked_bar_chart'&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;Tips and Tricks (make it more interactive!)&lt;/h4&gt;
 &lt;p&gt;There are a couple of things we may want to do to try to make it more fun:&lt;/p&gt;
@@ -749,10 +769,10 @@ dtype: object
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x110f44978&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x117255940&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/languages_47_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_48_2.png"&gt;&lt;/p&gt;
 &lt;p&gt;You can try clicking the radio buttons on the legend and see how the chart changes! I'm still fairly new to Altair and all, so if there are better ways of doing what I tried, I'm open to feedback! Altair is also relatively new and consistently being updated so I'm sure that soon enough, there may be more concise ways of achieving the same charts.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;So... any thoughts on new languages to learn this year?&lt;/strong&gt;&lt;/p&gt;</content><category term="python languages altair visualization"></category></entry></feed>
