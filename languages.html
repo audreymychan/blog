@@ -66,7 +66,7 @@
 <p>I tried using Google Trends myself, on programming languages that I've learned and used in the past. <em>Retrieved 01-Apr-2019.</em></p>
 <h3>Retrieve Data</h3>
 <p>At <a href="https://trends.google.com/trends/?geo=US">Google Trends</a>, I searched the following 5 different languages for comparison worldwide from 2004 to now, and downloaded the data for interest over time. </p>
-<p><img alt="" src="https://audreymychan.github.io/blog/images/google_trends.png"></p>
+<p><img src="images/google_trends.png" alt="google_trends" width="900"></p>
 <h4>Import libraries and data</h4>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">altair</span> <span class="kn">as</span> <span class="nn">alt</span>
@@ -242,7 +242,7 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x117255b00&gt;
+<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x1163fb6d8&gt;
 </pre></div>
 
 
@@ -250,18 +250,18 @@
 <p><a id='multi_series_line_chart'></a></p>
 <h4>Tips and Tricks (make it easier to see!)</h4>
 <p>That's a bit hard to see on one page... we can play around with the following:</p>
-<ol>
+<ul>
 <li><strong>Date format on x-axis:</strong> Change the data type of column <code>Month</code> to <code>datetime64[ns]</code> using <code>pd.to_datetime()</code> to reduce the noise on the x-axis.</li>
-</ol>
+</ul>
 <div class="highlight"><pre><span></span><span class="nb">long</span><span class="p">[</span><span class="s1">&#39;Month&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="nb">long</span><span class="p">[</span><span class="s1">&#39;Month&#39;</span><span class="p">])</span>
 </pre></div>
 
 
-<ol>
+<ul>
 <li><strong>Color:</strong> Change the color scheme using <code>alt.Color</code> and <code>alt.Scale</code> if you think the blue, teal, green blends together in the chart above. Would you consider teal more green or blue? Other Vega color schemes can be found <a href="https://vega.github.io/vega/docs/schemes/#reference">here</a>.</li>
 <li><strong>Size:</strong> Modify the chart size with <code>properties</code>.</li>
 <li><strong>Scaling:</strong> Make chart axes scales <code>interactive</code> if you want to zoom into the bottom right noisier area.</li>
-</ol>
+</ul>
 <div class="highlight"><pre><span></span><span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="nb">long</span><span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
     <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;Month&#39;</span><span class="p">,</span>
     <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;relative_popularity&#39;</span><span class="p">,</span>
@@ -275,7 +275,7 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x117308dd8&gt;
+<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x1163e76d8&gt;
 </pre></div>
 
 
@@ -371,11 +371,11 @@ dtype: object
 
 
 <p>Since all column data types are <code>object</code>, numeric columns were converted to <code>float64</code> (units, in millions) by:</p>
-<ol>
+<ul>
 <li><strong>Removing commas</strong>: in the numeric <code>str</code> values by using <code>str.replace()</code></li>
 <li><strong>Converting dtype</strong> <code>object</code> to <code>float</code> using <code>astype()</code></li>
 <li><strong>Unit conversion:</strong> Dividing by 1,000,000 to convert to units (in millions), and flooring the number by dividing by 1</li>
-</ol>
+</ul>
 <div class="highlight"><pre><span></span><span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;l1_speakers&#39;</span><span class="p">,</span> <span class="s1">&#39;l2_speakers&#39;</span><span class="p">,</span> <span class="s1">&#39;total&#39;</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
     <span class="n">spoken</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">spoken</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1</span><span class="n">_000_000</span> <span class="o">//</span> <span class="mi">1</span>
@@ -475,7 +475,7 @@ dtype: object
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x1173089b0&gt;
+<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x11646ca20&gt;
 </pre></div>
 
 
@@ -483,16 +483,16 @@ dtype: object
 <p><a id='stacked_bar_chart'></a></p>
 <h4>Tips and Tricks (make it more interactive!)</h4>
 <p>There are a couple of things we may want to do to try to make it more fun:</p>
-<ol>
+<ul>
 <li><strong>Selection:</strong> Add a selection, which captures interactions from mouse clicks.</li>
-</ol>
+</ul>
 <div class="highlight"><pre><span></span><span class="n">selection</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">selection_single</span><span class="p">(</span><span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;variable&#39;</span><span class="p">])</span>
 </pre></div>
 
 
-<ol>
+<ul>
 <li><strong>Legend:</strong> Create a separate legend out of <code>mark_point()</code> and using it as radio buttons to act as inputs to <code>selection</code>.</li>
-</ol>
+</ul>
 <div class="highlight"><pre><span></span><span class="n">legend</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">l1_l2</span><span class="p">)</span><span class="o">.</span><span class="n">mark_point</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s1">&#39;variable:N&#39;</span><span class="p">,</span>
               <span class="n">axis</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">orient</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">)</span>
@@ -504,10 +504,10 @@ dtype: object
 </pre></div>
 
 
-<ol>
+<ul>
 <li><strong>Filter:</strong> Add <code>transform_filter</code> to the bar chart code, to transform the data based on <code>selection</code></li>
 <li><strong>Tooltip:</strong> Add <code>tooltip</code> to display details upon mouseover on different bars</li>
-</ol>
+</ul>
 <div class="highlight"><pre><span></span><span class="n">l1_l2_bar</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">l1_l2</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s1">&#39;sum(value)&#39;</span><span class="p">,</span>
               <span class="n">axis</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Numbers of Speakers (in millions)&#39;</span><span class="p">)</span>
@@ -528,9 +528,9 @@ dtype: object
 </pre></div>
 
 
-<ol>
+<ul>
 <li><strong>Bar Background:</strong> Add a background bar chart, to capture the <code>total</code> number of speakers and using <code>alt.layer()</code> <em>(<code>+</code> can also be used)</em> and <code>alt.hconcat()</code> <em>(<code>|</code> can also be used)</em> to combine charts together.</li>
-</ol>
+</ul>
 <div class="highlight"><pre><span></span><span class="c1"># background bars for total number of speakers</span>
 <span class="n">total_bar</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">total</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;lightgray&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s1">&#39;total&#39;</span><span class="p">,</span>
@@ -553,7 +553,7 @@ dtype: object
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x117255940&gt;
+<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x1058ccef0&gt;
 </pre></div>
 
 

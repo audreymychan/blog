@@ -6,33 +6,19 @@
 &lt;h2&gt;So, what can we do?&lt;/h2&gt;
 &lt;p&gt;Here are some techniques you can consider when dealing with unbalanced classes. We will further elaborate and explore the imbalanced-learn API.&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Weigh observations&lt;/strong&gt; - Some models allow for hyperparameter tweaking of &lt;code&gt;class_weight&lt;/code&gt; (i.e. Logistic Regression, Random Forests, SVMs)&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Change the algorithm - For example, decision trees perform well on unbalanced classes&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Purposely optimize between &lt;strong&gt;evaluation metrics&lt;/strong&gt; - Consider optimizing for specific metrics other than accuracy, such as &lt;code&gt;precision&lt;/code&gt; and &lt;code&gt;recall&lt;/code&gt; (&lt;a href="https://en.wikipedia.org/wiki/Precision_and_recall#/media/File:Precisionrecall.svg"&gt;img url&lt;/a&gt;)&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;img alt="" src="https://audreymychan.github.io/blog/images/precisionrecall.svg"&gt;&lt;/p&gt;
-&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Weigh observations&lt;/strong&gt; - Some models allow for hyperparameter tweaking of &lt;code&gt;class_weight&lt;/code&gt; (i.e. Logistic Regression, Random Forests, SVMs)&lt;/li&gt;
+&lt;li&gt;Change the algorithm - For example, decision trees perform well on unbalanced classes&lt;/li&gt;
+&lt;li&gt;Purposely optimize between &lt;strong&gt;evaluation metrics&lt;/strong&gt; - Consider optimizing for specific metrics other than accuracy, such as &lt;code&gt;precision&lt;/code&gt; and &lt;code&gt;recall&lt;/code&gt; (&lt;a href="https://en.wikipedia.org/wiki/Precision_and_recall#/media/File:Precisionrecall.svg"&gt;img url&lt;/a&gt;)&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Re-sampling&lt;/strong&gt; with imbalanced-learn&lt;/li&gt;
 &lt;/ol&gt;
+&lt;p&gt;&lt;img src="images/precisionrecall.svg" alt="precisionrecall" width="350"&gt;&lt;/p&gt;
 &lt;h2&gt;Re-sample with imbalanced-learn&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;imbalanced-learn&lt;/code&gt; is a python package offering a number of re-sampling techniques commonly used in datasets showing strong between-class imbalance. It includes strategies for undersampling, oversampling, and a combination of both. &lt;/p&gt;
 &lt;p&gt;Here we will:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Generate our own imbalance datasets&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Use Altair to visual how different imlearn strategies impact our classification predictions (y_pred), and&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Consider how it impacts &lt;code&gt;accuracy&lt;/code&gt;, &lt;code&gt;precision&lt;/code&gt; and &lt;code&gt;recall&lt;/code&gt; scores&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;Generate our own imbalance datasets&lt;/li&gt;
+&lt;li&gt;Use Altair to visual how different imlearn strategies impact our classification predictions (y_pred), and&lt;/li&gt;
+&lt;li&gt;Consider how it impacts &lt;code&gt;accuracy&lt;/code&gt;, &lt;code&gt;precision&lt;/code&gt; and &lt;code&gt;recall&lt;/code&gt; scores&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;We will be making predictions using a Logistic Regression model throughout as an example.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Import librairies&lt;/span&gt;
@@ -117,7 +103,10 @@
 
 &lt;p&gt;Before we dive into resampling our data, let's see how a logistic regression model would do with our original dataset.&lt;/p&gt;
 &lt;h2&gt;Original (unbalanced) Dataset&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# predictions without resampling&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;warnings&lt;/span&gt;
+&lt;span class="n"&gt;warnings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filterwarnings&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ignore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# predictions without resampling&lt;/span&gt;
 &lt;span class="n"&gt;X_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X_test&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_test&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;train_test_split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;random_state&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;logreg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;LogisticRegression&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;solver&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;lbfgs&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;multi_class&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;auto&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;logreg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_train&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -138,37 +127,33 @@
  Recall Score: [0.         0.66666667 0.99468085]
 
 
-/Users/audreymychan/anaconda3/lib/python3.6/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples.
-  &amp;#39;precision&amp;#39;, &amp;#39;predicted&amp;#39;, average, warn_for)
 
-
-
-&amp;lt;vega.vegalite.VegaLite at 0x1066804e0&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x115781160&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_19_4.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_14_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;As you can see this is problematic when making predictions on the test data. Even though the accuracy score is high, our model can not identify Class 0 at all (no blue dot present) and some of the Class 1 data are being predicted as Class 2. &lt;/p&gt;
 &lt;h2&gt;Over-sampling Methods&lt;/h2&gt;
 &lt;p&gt;For more information on how samples are generated using these different methods, you can refer to &lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/over_sampling.html#mathematical-formulation"&gt;imblearn's documentation&lt;/a&gt;. &lt;/p&gt;
 &lt;h3&gt;1. SMOTE&lt;/h3&gt;
 &lt;p&gt;SMOTE stands for &lt;em&gt;Synthetic Minority Over-sampling Technique&lt;/em&gt;. It generates new synthetic samples by interpolation (focused on connecting inliers and outliers), adding random points between the n-nearest neighbors (default = 5, a hyperparameter that can be tweaked) in the minority class and each of the samples in that class (&lt;a href="https://www.researchgate.net/publication/287601878/figure/fig1/AS:316826589384744@1452548753581/The-schematic-of-NRSBoundary-SMOTE-algorithm.png"&gt;img url&lt;/a&gt;).&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="https://audreymychan.github.io/blog/images/SMOTE.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/SMOTE.png" alt="SMOTE" width="400"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;rebalance_train_test_logreg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SMOTE&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;SMOTE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.78
- Precision Score: [0.06666667 0.34782609 0.99319728]
- Recall Score: [0.66666667 0.88888889 0.77659574]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.785
+ Precision Score: [0.06896552 0.34782609 0.99324324]
+ Recall Score: [0.66666667 0.88888889 0.78191489]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a1b2d4780&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x11571b2e8&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_23_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_18_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;Compared to the unbalanced classes, here we can identify some of the blue (Class 0) dots. That's why the recall score for that Class increased from 0 to 0.67. However, you can see that with this method, it also over identifies the blue (Class 0) and yellow (Class 1) dots. This can also be shown by lower precision scores for these two classes. &lt;/p&gt;
 &lt;h3&gt;2. ADASYN&lt;/h3&gt;
 &lt;p&gt;ADASYN stands for &lt;em&gt;Adaptive Synthetic&lt;/em&gt;, a slightly improved method from SMOTE. ADASYN works in a similiar way by interpolation, but focuses on generating synthetic samples next to original samples that are harder to learn than those that are easier to learn (focusing on outliers). Hence, this helps to shift the classification decision boundary towards the difficult samples.&lt;/p&gt;
@@ -182,11 +167,11 @@
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a1b6bc5f8&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a18c57358&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_26_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_21_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;The predictions looks very similar after resampling with ADASYN looks very similar to SMOTE, maybe a few more yellow (Class 1) data are now being predicted correctly. &lt;/p&gt;
 &lt;h3&gt;3. BorderlineSMOTE&lt;/h3&gt;
 &lt;p&gt;BorderlineSMOTE is a variant of SMOTE, a method focused on samples near of the border of the optimal decision function and will generate samples in the opposite direction of the nearest neighbors class.&lt;/p&gt;
@@ -194,78 +179,69 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.955
- Precision Score: [0.5        0.58333333 0.98913043]
- Recall Score: [0.66666667 0.77777778 0.96808511]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.95
+ Precision Score: [0.5        0.53846154 0.98907104]
+ Recall Score: [0.66666667 0.77777778 0.96276596]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a1b9d1cf8&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x102f03588&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_29_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_24_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;Predictions don't look too bad! An improvement from SMOTE and ADASYN. Accuracy score has increased to 0.955 but also the precision and recall scores for the minority Classes also increased on average.  &lt;/p&gt;
 &lt;h2&gt;Combination of Over-sampling and Under-sampling&lt;/h2&gt;
 &lt;p&gt;With SMOTE above, you can see that the data got a lot noisier. If you choose to do so, under-sampling (after over-sampling) can help to clean this up in hopes to better our predictions. More information can be found in &lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/combine.html"&gt;imlearn's documentation&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;1. SMOTETomek&lt;/h3&gt;
 &lt;p&gt;This method applies the SMOTE method described above then undersamples based on &lt;code&gt;Tomek's link&lt;/code&gt;. A Tomek’s link exist if the two samples (from different classes) are the nearest neighbors of each other. Based on selection for the hyperparameter &lt;code&gt;sampling_strategy&lt;/code&gt;, this removes one to all of the samples in the link (default: 'auto', which removes samples from the majority class).&lt;/p&gt;
 &lt;p&gt;Alternatively, you can choose to resample the data by only undersampling using &lt;code&gt;imblearn.under_sampling.TomekLinks&lt;/code&gt; (without oversampling with SMOTE first) (&lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/_images/sphx_glr_plot_illustration_tomek_links_001.png"&gt;img url&lt;/a&gt;).&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="https://audreymychan.github.io/blog/images/Tomek.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/Tomek.png" alt="Tomek" width="400"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;rebalance_train_test_logreg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SMOTETomek&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;SMOTETomek&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.77
- Precision Score: [0.0625     0.34782609 0.99310345]
- Recall Score: [0.66666667 0.88888889 0.76595745]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.775
+ Precision Score: [0.06060606 0.35       0.99319728]
+ Recall Score: [0.66666667 0.77777778 0.77659574]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x107e77f28&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1044edb70&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_33_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_28_3.png"&gt;&lt;/p&gt;
 &lt;h3&gt;2. SMOTEENN&lt;/h3&gt;
 &lt;p&gt;This method applies the SMOTE method described above then undersamples based on &lt;code&gt;EditedNearestNeighbours&lt;/code&gt;, which applies a nearest-neighbors algorithm and removes samples if they do not agree “enough” with their neighboorhood.&lt;/p&gt;
 &lt;p&gt;Two selection criteria are currently available:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;code&gt;kind_sel&lt;/code&gt; = 'mode', the majority vote of the neighbours will be used in order to exclude a sample&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;code&gt;kind_sel&lt;/code&gt; = 'all', all neighbours will have to agree with the samples of interest to not be excluded&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;kind_sel&lt;/code&gt; = 'mode', the majority vote of the neighbours will be used in order to exclude a sample&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;kind_sel&lt;/code&gt; = 'all', all neighbours will have to agree with the samples of interest to not be excluded&lt;/li&gt;
+&lt;/ol&gt;
 &lt;p&gt;Alternatively, you can choose to resample the data by only undersampled using &lt;code&gt;imblearn.under_sampling.EditedNearestNeighbours&lt;/code&gt; (without oversampling with SMOTE first). &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;rebalance_train_test_logreg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SMOTEENN&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;SMOTEENN&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.72
- Precision Score: [0.04545455 0.35       0.99264706]
- Recall Score: [0.66666667 0.77777778 0.71808511]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.69
+ Precision Score: [0.03571429 0.5        0.99230769]
+ Recall Score: [0.66666667 0.77777778 0.68617021]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a1bf95470&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a18ca7a58&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_38_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_32_3.png"&gt;&lt;/p&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;We've only covered a handful of resampling methods offered from &lt;code&gt;imblearn&lt;/code&gt; (&lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/api.html#"&gt;the full list&lt;/a&gt;). For tackling unbalanced classes, resampling is also only one possible solution amongst other mentioned earlier:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Weigh observations&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Consider other metrics (i.e. precision, recall, ROC AUC)&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Change the algorithm&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;Weigh observations&lt;/li&gt;
+&lt;li&gt;Consider other metrics (i.e. precision, recall, ROC AUC)&lt;/li&gt;
+&lt;li&gt;Change the algorithm&lt;/li&gt;
+&lt;li&gt;Re-sampling (undersampling, oversampling, under and oversampling)&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;You should always try different approaches and see which one works best for different problems!&lt;/p&gt;</content><category term="imblearn"></category></entry><entry><title>Hello, World! What languages to learn in 2019? (presented with Altair visualizations)</title><link href="https://audreymychan.github.io/blog/languages.html" rel="alternate"></link><published>2019-04-01T22:35:00-04:00</published><updated>2019-04-01T22:35:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-01:/blog/languages.html</id><summary type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there was some unlearning and relearning to do. In particular, I found myself consistently trying to reach for a for-from-until-increment-loop in Python, which doesn't exist!&lt;/p&gt;
 &lt;p&gt;While I'm getting the hang of Python, I'm starting to appreciate the ease of use, code readability, and structure of the language. This brought me to something I was curious about... What are the top programming languages today? Am I learning the "right" language? How about spoken languages? What will strengthen my portfolio?&lt;/p&gt;
@@ -282,7 +258,7 @@
 &lt;p&gt;I tried using Google Trends myself, on programming languages that I've learned and used in the past. &lt;em&gt;Retrieved 01-Apr-2019.&lt;/em&gt;&lt;/p&gt;
 &lt;h3&gt;Retrieve Data&lt;/h3&gt;
 &lt;p&gt;At &lt;a href="https://trends.google.com/trends/?geo=US"&gt;Google Trends&lt;/a&gt;, I searched the following 5 different languages for comparison worldwide from 2004 to now, and downloaded the data for interest over time. &lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="https://audreymychan.github.io/blog/images/google_trends.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/google_trends.png" alt="google_trends" width="900"&gt;&lt;/p&gt;
 &lt;h4&gt;Import libraries and data&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;altair&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;alt&lt;/span&gt;
@@ -458,7 +434,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x117255b00&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x1163fb6d8&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -466,18 +442,18 @@
 &lt;p&gt;&lt;a id='multi_series_line_chart'&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;Tips and Tricks (make it easier to see!)&lt;/h4&gt;
 &lt;p&gt;That's a bit hard to see on one page... we can play around with the following:&lt;/p&gt;
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Date format on x-axis:&lt;/strong&gt; Change the data type of column &lt;code&gt;Month&lt;/code&gt; to &lt;code&gt;datetime64[ns]&lt;/code&gt; using &lt;code&gt;pd.to_datetime()&lt;/code&gt; to reduce the noise on the x-axis.&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;long&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Month&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_datetime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;long&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Month&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Color:&lt;/strong&gt; Change the color scheme using &lt;code&gt;alt.Color&lt;/code&gt; and &lt;code&gt;alt.Scale&lt;/code&gt; if you think the blue, teal, green blends together in the chart above. Would you consider teal more green or blue? Other Vega color schemes can be found &lt;a href="https://vega.github.io/vega/docs/schemes/#reference"&gt;here&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Size:&lt;/strong&gt; Modify the chart size with &lt;code&gt;properties&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Scaling:&lt;/strong&gt; Make chart axes scales &lt;code&gt;interactive&lt;/code&gt; if you want to zoom into the bottom right noisier area.&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Chart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;long&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark_line&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Month&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;relative_popularity&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -491,7 +467,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x117308dd8&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x1163e76d8&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -587,11 +563,11 @@ dtype: object
 
 
 &lt;p&gt;Since all column data types are &lt;code&gt;object&lt;/code&gt;, numeric columns were converted to &lt;code&gt;float64&lt;/code&gt; (units, in millions) by:&lt;/p&gt;
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Removing commas&lt;/strong&gt;: in the numeric &lt;code&gt;str&lt;/code&gt; values by using &lt;code&gt;str.replace()&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Converting dtype&lt;/strong&gt; &lt;code&gt;object&lt;/code&gt; to &lt;code&gt;float&lt;/code&gt; using &lt;code&gt;astype()&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Unit conversion:&lt;/strong&gt; Dividing by 1,000,000 to convert to units (in millions), and flooring the number by dividing by 1&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;cols&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;l1_speakers&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;l2_speakers&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;total&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;col&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;cols&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;spoken&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;col&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;spoken&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;col&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;,&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;astype&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="n"&gt;_000_000&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
@@ -691,7 +667,7 @@ dtype: object
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x1173089b0&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x11646ca20&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -699,16 +675,16 @@ dtype: object
 &lt;p&gt;&lt;a id='stacked_bar_chart'&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;Tips and Tricks (make it more interactive!)&lt;/h4&gt;
 &lt;p&gt;There are a couple of things we may want to do to try to make it more fun:&lt;/p&gt;
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Selection:&lt;/strong&gt; Add a selection, which captures interactions from mouse clicks.&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;selection&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;selection_single&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fields&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;variable&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Legend:&lt;/strong&gt; Create a separate legend out of &lt;code&gt;mark_point()&lt;/code&gt; and using it as radio buttons to act as inputs to &lt;code&gt;selection&lt;/code&gt;.&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;legend&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Chart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l1_l2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark_point&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;variable:N&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
               &lt;span class="n"&gt;axis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;orient&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;right&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -720,10 +696,10 @@ dtype: object
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Filter:&lt;/strong&gt; Add &lt;code&gt;transform_filter&lt;/code&gt; to the bar chart code, to transform the data based on &lt;code&gt;selection&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Tooltip:&lt;/strong&gt; Add &lt;code&gt;tooltip&lt;/code&gt; to display details upon mouseover on different bars&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;l1_l2_bar&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Chart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l1_l2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark_bar&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sum(value)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
               &lt;span class="n"&gt;axis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Numbers of Speakers (in millions)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -744,9 +720,9 @@ dtype: object
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Bar Background:&lt;/strong&gt; Add a background bar chart, to capture the &lt;code&gt;total&lt;/code&gt; number of speakers and using &lt;code&gt;alt.layer()&lt;/code&gt; &lt;em&gt;(&lt;code&gt;+&lt;/code&gt; can also be used)&lt;/em&gt; and &lt;code&gt;alt.hconcat()&lt;/code&gt; &lt;em&gt;(&lt;code&gt;|&lt;/code&gt; can also be used)&lt;/em&gt; to combine charts together.&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# background bars for total number of speakers&lt;/span&gt;
 &lt;span class="n"&gt;total_bar&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Chart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;total&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark_bar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;lightgray&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;total&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -769,7 +745,7 @@ dtype: object
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x117255940&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;vega.vegalite.VegaLite at 0x1058ccef0&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
