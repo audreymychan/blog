@@ -17,7 +17,7 @@
 &lt;p&gt;Here we will:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Generate our own imbalance datasets&lt;/li&gt;
-&lt;li&gt;Use Altair to visual how different imlearn strategies impact our classification predictions (y_pred), and&lt;/li&gt;
+&lt;li&gt;Use Altair to visual how different imlearn oversampling and hybrid strategies impact our classification predictions (y_pred), and&lt;/li&gt;
 &lt;li&gt;Consider how it impacts &lt;code&gt;accuracy&lt;/code&gt;, &lt;code&gt;precision&lt;/code&gt; and &lt;code&gt;recall&lt;/code&gt; scores&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;We will be making predictions using a Logistic Regression model throughout as an example.&lt;/p&gt;
@@ -128,7 +128,7 @@
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x115781160&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a25b3f2e8&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -137,7 +137,7 @@
 &lt;h2&gt;Over-sampling Methods&lt;/h2&gt;
 &lt;p&gt;For more information on how samples are generated using these different methods, you can refer to &lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/over_sampling.html#mathematical-formulation"&gt;imblearn's documentation&lt;/a&gt;. &lt;/p&gt;
 &lt;h3&gt;1. SMOTE&lt;/h3&gt;
-&lt;p&gt;SMOTE stands for &lt;em&gt;Synthetic Minority Over-sampling Technique&lt;/em&gt;. It generates new synthetic samples by interpolation (focused on connecting inliers and outliers), adding random points between the n-nearest neighbors (default = 5, a hyperparameter that can be tweaked) in the minority class and each of the samples in that class (&lt;a href="https://www.researchgate.net/publication/287601878/figure/fig1/AS:316826589384744@1452548753581/The-schematic-of-NRSBoundary-SMOTE-algorithm.png"&gt;img url&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;SMOTE stands for &lt;em&gt;Synthetic Minority Over-sampling Technique&lt;/em&gt;. It generates new synthetic minority samples between existing minority samples by interpolation (focused on connecting inliers and outliers). The algorithm adds random points between existing minority samples and its n-nearest neighbors (default = 5, a hyperparameter that can be tweaked) for each of the samples in the class (&lt;a href="https://www.researchgate.net/publication/287601878/figure/fig1/AS:316826589384744@1452548753581/The-schematic-of-NRSBoundary-SMOTE-algorithm.png"&gt;img url&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;&lt;img src="images/SMOTE.png" alt="SMOTE" width="400"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;rebalance_train_test_logreg&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SMOTE&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;SMOTE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -149,7 +149,7 @@
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x11571b2e8&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a25b3f5c0&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -162,12 +162,12 @@
 
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.725
- Precision Score: [0.06060606 0.28125    0.99259259]
+ Precision Score: [0.05882353 0.29032258 0.99259259]
  Recall Score: [0.66666667 1.         0.71276596]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a18c57358&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x110819940&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -179,19 +179,19 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.95
- Precision Score: [0.5        0.53846154 0.98907104]
- Recall Score: [0.66666667 0.77777778 0.96276596]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.955
+ Precision Score: [0.5        0.58333333 0.98913043]
+ Recall Score: [0.66666667 0.77777778 0.96808511]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x102f03588&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a25b00b70&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_24_3.png"&gt;&lt;/p&gt;
-&lt;p&gt;Predictions don't look too bad! An improvement from SMOTE and ADASYN. Accuracy score has increased to 0.955 but also the precision and recall scores for the minority Classes also increased on average.  &lt;/p&gt;
-&lt;h2&gt;Combination of Over-sampling and Under-sampling&lt;/h2&gt;
+&lt;p&gt;Predictions don't look too bad! An improvement from SMOTE and ADASYN. Accuracy score has increased to 0.955 but also the precision and recall scores for the minority classes also increased on average.  &lt;/p&gt;
+&lt;h2&gt;Hybrid Approach (Combination of Over-sampling Under-sampling)&lt;/h2&gt;
 &lt;p&gt;With SMOTE above, you can see that the data got a lot noisier. If you choose to do so, under-sampling (after over-sampling) can help to clean this up in hopes to better our predictions. More information can be found in &lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/combine.html"&gt;imlearn's documentation&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;1. SMOTETomek&lt;/h3&gt;
 &lt;p&gt;This method applies the SMOTE method described above then undersamples based on &lt;code&gt;Tomek's link&lt;/code&gt;. A Tomek’s link exist if the two samples (from different classes) are the nearest neighbors of each other. Based on selection for the hyperparameter &lt;code&gt;sampling_strategy&lt;/code&gt;, this removes one to all of the samples in the link (default: 'auto', which removes samples from the majority class).&lt;/p&gt;
@@ -201,13 +201,13 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.775
- Precision Score: [0.06060606 0.35       0.99319728]
- Recall Score: [0.66666667 0.77777778 0.77659574]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.765
+ Precision Score: [0.06060606 0.34782609 0.99305556]
+ Recall Score: [0.66666667 0.88888889 0.7606383 ]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1044edb70&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a258560b8&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -225,16 +225,20 @@
 
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.69
- Precision Score: [0.03571429 0.5        0.99230769]
+ Precision Score: [0.03921569 0.36842105 0.99230769]
  Recall Score: [0.66666667 0.77777778 0.68617021]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a18ca7a58&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a25856080&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_32_3.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Advantages and Limitations of SMOTE&lt;/h2&gt;
+&lt;p&gt;SMOTE is a powerful over-sampling algorithm, which I prefer over the &lt;code&gt;imblearn.over_sampling.RandomOverSampler()&lt;/code&gt; and &lt;code&gt;imblearn.under_sampling.RandomUnderSampler()&lt;/code&gt; algorithms. Instead of randomly choosing samples from the minority class to duplicate or to remove, it goes beyond the naive way of creating or removing samples. This prevents overfitting (with created duplicated samples) and prevents the risk of randomly removing important samples. &lt;/p&gt;
+&lt;p&gt;However, one limitation of SMOTE is that it blindly re-samples the minority class without considering how sparse and separated the minority classes are compared to the majority class. In our example, you can see that the blue and yellow dots are somewhat spread into and within the red dots. With SMOTE, it blindly overpopulated these classes with it's algorithm, which increased class mixture. As a result, it predicted more blue and yellow dots than desired.&lt;/p&gt;
+&lt;p&gt;In this specific example, I actually really like the alternate &lt;code&gt;BorderLineSMOTE&lt;/code&gt; algorithm!&lt;/p&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;We've only covered a handful of resampling methods offered from &lt;code&gt;imblearn&lt;/code&gt; (&lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/api.html#"&gt;the full list&lt;/a&gt;). For tackling unbalanced classes, resampling is also only one possible solution amongst other mentioned earlier:&lt;/p&gt;
 &lt;ol&gt;
@@ -243,7 +247,7 @@
 &lt;li&gt;Change the algorithm&lt;/li&gt;
 &lt;li&gt;Re-sampling (undersampling, oversampling, under and oversampling)&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;You should always try different approaches and see which one works best for different problems!&lt;/p&gt;</content><category term="imblearn"></category></entry><entry><title>Hello, World! What Languages to Learn in 2019? (Altair visualizations)</title><link href="https://audreymychan.github.io/blog/languages.html" rel="alternate"></link><published>2019-04-01T22:35:00-04:00</published><updated>2019-04-01T22:35:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-01:/blog/languages.html</id><summary type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there was some unlearning and relearning to do. In particular, I found myself consistently trying to reach for a for-from-until-increment-loop in Python, which doesn't exist!&lt;/p&gt;
+&lt;p&gt;You should always consider separation and sparsity of your classes, try different approaches, and see which one works best for different problems!&lt;/p&gt;</content><category term="imblearn"></category></entry><entry><title>Hello, World! What Languages to Learn in 2019? (Altair visualizations)</title><link href="https://audreymychan.github.io/blog/languages.html" rel="alternate"></link><published>2019-04-01T22:35:00-04:00</published><updated>2019-04-01T22:35:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-01:/blog/languages.html</id><summary type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there was some unlearning and relearning to do. In particular, I found myself consistently trying to reach for a for-from-until-increment-loop in Python, which doesn't exist!&lt;/p&gt;
 &lt;p&gt;While I'm getting the hang of Python, I'm starting to appreciate the ease of use, code readability, and structure of the language. This brought me to something I was curious about... What are the top programming languages today? Am I learning the "right" language? How about spoken languages? What will strengthen my portfolio?&lt;/p&gt;
 &lt;p&gt;Like anything else, what do you do when questions arise? I googled it! This is not meant to tell you what languages to pick up or to drop but mainly to fulfill my curiosity. &lt;em&gt;No extensive research was done during this sitting&lt;/em&gt;. I did take some basic data though and played around with Altair visualizations... so read on if you'd like to learn some tips and tricks for visualization.&lt;/p&gt;
 &lt;p&gt;&lt;a href="#multi_series_line_chart"&gt;(Interactive) Multi-series Line Chart - with color and chart size modification&lt;/a&gt;&lt;/p&gt;
