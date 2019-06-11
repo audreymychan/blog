@@ -6,7 +6,9 @@ import os
 AUTHOR = 'Audrey Chan'
 SITENAME = 'Audrey Chan'
 SITEURL = 'https://audreymychan.github.io/blog'
-TAGLINE = "Data scientist. National athlete.\nFormer medical device R&D engineer.\nAlways finding joy in constant improvement and helping anyone who needs it."
+TAGLINE = '''Data scientist • Engineer • National athlete
+ • Always finding joy in constant improvement and helping
+  anyone who needs it'''
 PATH = 'content'
 STATIC_PATHS = ['images']
 TIMEZONE = 'America/Toronto'
