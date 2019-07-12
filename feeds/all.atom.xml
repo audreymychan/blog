@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Audrey Chan</title><link href="https://audreymychan.github.io/blog/" rel="alternate"></link><link href="https://audreymychan.github.io/blog/feeds/all.atom.xml" rel="self"></link><id>https://audreymychan.github.io/blog/</id><updated>2019-04-15T23:40:00-04:00</updated><entry><title>How to Handle Unbalanced Classes: imbalanced-learn</title><link href="https://audreymychan.github.io/blog/unbalancedclasses.html" rel="alternate"></link><published>2019-04-15T23:40:00-04:00</published><updated>2019-04-15T23:40:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-15:/blog/unbalancedclasses.html</id><summary type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost constraints. For example, if you consider classification problems such as non-fraud vs fraud and no-cancer vs cancer, fraudulent transactions and cancer patients are more rare than normal transactions and healthy patients. Other examples include oil spill detection, network intrusion detection, other rare diseases, etc.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Audrey Chan</title><link href="https://audreymychan.github.io/blog/" rel="alternate"></link><link href="https://audreymychan.github.io/blog/feeds/all.atom.xml" rel="self"></link><id>https://audreymychan.github.io/blog/</id><updated>2019-04-15T23:40:00-04:00</updated><entry><title>How to Handle Unbalanced Classes</title><link href="https://audreymychan.github.io/blog/unbalancedclasses.html" rel="alternate"></link><published>2019-04-15T23:40:00-04:00</published><updated>2019-04-15T23:40:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-15:/blog/unbalancedclasses.html</id><summary type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost constraints. For example, if you consider classification problems such as non-fraud vs fraud and no-cancer vs cancer, fraudulent transactions and cancer patients are more rare than normal transactions and healthy patients. Other examples include oil spill detection, network intrusion detection, other rare diseases, etc.&lt;/p&gt;
 &lt;h2&gt;Challenges&lt;/h2&gt;
 &lt;p&gt;Machine learning algorithms are built to minimize errors. For unbalanced datasets, since instances of the majority class is outnumbering the minority classes, the classifiers will more likely classify new data to the majority class. &lt;/p&gt;
 &lt;p&gt;For example, if you had a dataset with 90% no-cancer (healthy) and 10% cancer, the classifier will be bias to classify a new person as having no-cancer (healthy) as it would be 90% accurate. This leads to &lt;code&gt;False Negatives&lt;/code&gt;, which in the case of cancer, could be seen as more costly than having &lt;code&gt;False Positives&lt;/code&gt;! A patient is told they don't have cancer, when they actually do... do you see the problem here?&lt;/p&gt;
@@ -133,6 +133,7 @@
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_14_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_14_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;As you can see this is problematic when making predictions on the test data. Even though the accuracy score is high, our model can not identify Class 0 at all (no blue dot present) and some of the Class 1 data are being predicted as Class 2. &lt;/p&gt;
 &lt;h2&gt;Over-sampling Methods&lt;/h2&gt;
 &lt;p&gt;For more information on how samples are generated using these different methods, you can refer to &lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/over_sampling.html#mathematical-formulation"&gt;imblearn's documentation&lt;/a&gt;. &lt;/p&gt;
@@ -154,6 +155,7 @@
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_18_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_18_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;Compared to the unbalanced classes, here we can identify some of the blue (Class 0) dots. That's why the recall score for that Class increased from 0 to 0.67. However, you can see that with this method, it also over identifies the blue (Class 0) and yellow (Class 1) dots. This can also be shown by lower precision scores for these two classes. &lt;/p&gt;
 &lt;h3&gt;2. ADASYN&lt;/h3&gt;
 &lt;p&gt;ADASYN stands for &lt;em&gt;Adaptive Synthetic&lt;/em&gt;, a slightly improved method from SMOTE. ADASYN works in a similiar way by interpolation, but focuses on generating synthetic samples next to original samples that are harder to learn than those that are easier to learn (focusing on outliers). Hence, this helps to shift the classification decision boundary towards the difficult samples.&lt;/p&gt;
@@ -172,6 +174,7 @@
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_21_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_21_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;The predictions looks very similar after resampling with ADASYN looks very similar to SMOTE, maybe a few more yellow (Class 1) data are now being predicted correctly. &lt;/p&gt;
 &lt;h3&gt;3. BorderlineSMOTE&lt;/h3&gt;
 &lt;p&gt;BorderlineSMOTE is a variant of SMOTE, a method focused on samples near of the border of the optimal decision function and will generate samples in the opposite direction of the nearest neighbors class.&lt;/p&gt;
@@ -190,6 +193,7 @@
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_24_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_24_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;Predictions don't look too bad! An improvement from SMOTE and ADASYN. Accuracy score has increased to 0.955 but also the precision and recall scores for the minority classes also increased on average.  &lt;/p&gt;
 &lt;h2&gt;Hybrid Approach (Combination of Over-sampling Under-sampling)&lt;/h2&gt;
 &lt;p&gt;With SMOTE above, you can see that the data got a lot noisier. If you choose to do so, under-sampling (after over-sampling) can help to clean this up in hopes to better our predictions. More information can be found in &lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/combine.html"&gt;imlearn's documentation&lt;/a&gt;.&lt;/p&gt;
@@ -212,6 +216,7 @@
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_28_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_28_4.png"&gt;&lt;/p&gt;
 &lt;h3&gt;2. SMOTEENN&lt;/h3&gt;
 &lt;p&gt;This method applies the SMOTE method described above then undersamples based on &lt;code&gt;EditedNearestNeighbours&lt;/code&gt;, which applies a nearest-neighbors algorithm and removes samples if they do not agree “enough” with their neighboorhood.&lt;/p&gt;
 &lt;p&gt;Two selection criteria are currently available:&lt;/p&gt;
@@ -235,6 +240,7 @@
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_32_3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_32_4.png"&gt;&lt;/p&gt;
 &lt;h2&gt;Advantages and Limitations of SMOTE&lt;/h2&gt;
 &lt;p&gt;SMOTE is a powerful over-sampling algorithm, which I prefer over the &lt;code&gt;imblearn.over_sampling.RandomOverSampler()&lt;/code&gt; and &lt;code&gt;imblearn.under_sampling.RandomUnderSampler()&lt;/code&gt; algorithms. Instead of randomly choosing samples from the minority class to duplicate or to remove, it goes beyond the naive way of creating or removing samples. This prevents overfitting (with created duplicated samples) and prevents the risk of randomly removing important samples. &lt;/p&gt;
 &lt;p&gt;However, one limitation of SMOTE is that it blindly re-samples the minority class without considering how sparse and separated the minority classes are compared to the majority class. In our example, you can see that the blue and yellow dots are somewhat spread into and within the red dots. With SMOTE, it blindly overpopulated these classes with it's algorithm, which increased class mixture. As a result, it predicted more blue and yellow dots than desired.&lt;/p&gt;
@@ -247,7 +253,7 @@
 &lt;li&gt;Change the algorithm&lt;/li&gt;
 &lt;li&gt;Re-sampling (undersampling, oversampling, under and oversampling)&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;You should always consider separation and sparsity of your classes, try different approaches, and see which one works best for different problems!&lt;/p&gt;</content><category term="imblearn"></category></entry><entry><title>Hello, World! What Languages to Learn in 2019? (Altair visualizations)</title><link href="https://audreymychan.github.io/blog/languages.html" rel="alternate"></link><published>2019-04-01T22:35:00-04:00</published><updated>2019-04-01T22:35:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-01:/blog/languages.html</id><summary type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there was some unlearning and relearning to do. In particular, I found myself consistently trying to reach for a for-from-until-increment-loop in Python, which doesn't exist!&lt;/p&gt;
+&lt;p&gt;You should always consider separation and sparsity of your classes, try different approaches, and see which one works best for different problems!&lt;/p&gt;</content><category term="imblearn"></category></entry><entry><title>你好，世界! Visualizing top spoken languages with Altair</title><link href="https://audreymychan.github.io/blog/languages.html" rel="alternate"></link><published>2019-04-01T22:35:00-04:00</published><updated>2019-04-01T22:35:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-01:/blog/languages.html</id><summary type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there was some unlearning and relearning to do. In particular, I found myself consistently trying to reach for a for-from-until-increment-loop in Python, which doesn't exist!&lt;/p&gt;
 &lt;p&gt;While I'm getting the hang of Python, I'm starting to appreciate the ease of use, code readability, and structure of the language. This brought me to something I was curious about... What are the top programming languages today? Am I learning the "right" language? How about spoken languages? What will strengthen my portfolio?&lt;/p&gt;
 &lt;p&gt;Like anything else, what do you do when questions arise? I googled it! This is not meant to tell you what languages to pick up or to drop but mainly to fulfill my curiosity. &lt;em&gt;No extensive research was done during this sitting&lt;/em&gt;. I did take some basic data though and played around with Altair visualizations... so read on if you'd like to learn some tips and tricks for visualization.&lt;/p&gt;
 &lt;p&gt;&lt;a href="#multi_series_line_chart"&gt;(Interactive) Multi-series Line Chart - with color and chart size modification&lt;/a&gt;&lt;/p&gt;
@@ -443,6 +449,7 @@
 
 
 &lt;p&gt;&lt;img alt="png" src="images/languages_19_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_19_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a id='multi_series_line_chart'&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;Tips and Tricks (make it easier to see!)&lt;/h4&gt;
 &lt;p&gt;That's a bit hard to see on one page... we can play around with the following:&lt;/p&gt;
@@ -476,6 +483,7 @@
 
 
 &lt;p&gt;&lt;img alt="png" src="images/languages_24_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_24_3.png"&gt;&lt;/p&gt;
 &lt;h2&gt;Spoken Languages&lt;/h2&gt;
 &lt;hr&gt;
 &lt;p&gt;On the other hand, there are &lt;strong&gt;7,111 living spoken languages&lt;/strong&gt; that we know of to date according to &lt;a href="https://www.ethnologue.com/"&gt;Ethnologue 2019, 22nd edition&lt;/a&gt;! I am supposedly trilingual but admittedly don't keep up the practice! I always wonder if I should be keeping up with these spoken languages... Spoken (or programming) languages are constantly evolving and their popularity shaped by the people and technolgies around the world.&lt;/p&gt;
@@ -676,6 +684,7 @@ dtype: object
 
 
 &lt;p&gt;&lt;img alt="png" src="images/languages_38_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_38_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a id='stacked_bar_chart'&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;Tips and Tricks (make it more interactive!)&lt;/h4&gt;
 &lt;p&gt;There are a couple of things we may want to do to try to make it more fun:&lt;/p&gt;
@@ -754,5 +763,6 @@ dtype: object
 
 
 &lt;p&gt;&lt;img alt="png" src="images/languages_48_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_48_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;You can try clicking the radio buttons on the legend and see how the chart changes! I'm still fairly new to Altair and all, so if there are better ways of doing what I tried, I'm open to feedback! Altair is also relatively new and consistently being updated so I'm sure that soon enough, there may be more concise ways of achieving the same charts.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;So... any thoughts on new languages to learn this year?&lt;/strong&gt;&lt;/p&gt;</content><category term="python languages altair visualization"></category></entry></feed>
+&lt;p&gt;&lt;strong&gt;So... any thoughts on new languages to learn this year?&lt;/strong&gt;&lt;/p&gt;</content><category term="altair"></category></entry></feed>
