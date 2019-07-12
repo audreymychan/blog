@@ -21,7 +21,7 @@
 
   <title>
     Audrey Chan
-&ndash; 你好，世界! Visualizing top spoken languages with Altair  </title>
+&ndash; 你好世界! Visualizing top spoken languages with Altair  </title>
 
 </head>
 
@@ -52,14 +52,15 @@
 
 <article>
   <div class="article_title">
-    <h1><a href="https://audreymychan.github.io/blog/languages.html">你好，世界! Visualizing top spoken languages with Altair</a></h1>
+    <h1><a href="https://audreymychan.github.io/blog/languages.html">你好世界! Visualizing top spoken languages with Altair</a></h1>
   </div>
   <div class="article_text">
-    <p>It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there was some unlearning and relearning to do. In particular, I found myself consistently trying to reach for a for-from-until-increment-loop in Python, which doesn't exist!</p>
-<p>While I'm getting the hang of Python, I'm starting to appreciate the ease of use, code readability, and structure of the language. This brought me to something I was curious about... What are the top programming languages today? Am I learning the "right" language? How about spoken languages? What will strengthen my portfolio?</p>
+    <p>It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, numpy, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there was some unlearning and relearning to do. In particular, I found myself consistently trying to reach for a for-from-until-increment-loop in Python, which doesn't exist!</p>
+<p>While I'm getting the hang of Python, I'm starting to appreciate the ease of use, code readability, and structure of the language. This brought me to something I was curious about... What are the top programming languages today? Am I learning the "right" language? How about spoken languages?</p>
 <p>Like anything else, what do you do when questions arise? I googled it! This is not meant to tell you what languages to pick up or to drop but mainly to fulfill my curiosity. <em>No extensive research was done during this sitting</em>. I did take some basic data though and played around with Altair visualizations... so read on if you'd like to learn some tips and tricks for visualization.</p>
-<p><a href="#multi_series_line_chart">(Interactive) Multi-series Line Chart - with color and chart size modification</a></p>
-<p><a href="#stacked_bar_chart">(Interactive) Horizontal Stacked Bar Chart - with tooltip, selection, and filtering</a></p>
+<p><strong>Note:</strong> Interactivity of the charts below are not available right now. This is something I look to fix in this post later. This is an <a href="https://github.com/altair-viz/altair/issues/767">known issue</a> when converting Jupyter notebook to HTML files, interactivity is lost. Currently no package that uses jupyterlab frontend extensions will render correctly in nbconvert. In the meantime, links to videos are included to see this interactivity. Of course, you can run your own code to try them out on your system. </p>
+<p><a href="https://youtu.be/YpO2C04cgwU">(Interactive) Multi-series Line Chart - with color and chart size modification</a></p>
+<p><a href="https://youtu.be/4jsIbqCqxZc">(Interactive) Horizontal Stacked Bar Chart - with tooltip, selection, and filtering</a></p>
 <h2>Programming Languages</h2>
 <hr>
 <p>How many programming languages exist? There doesn't seem to be a definite answer amongst different sources I looked at... let's just say a lot (maybe somewhere between 500 and 2000). There are two existing indexes that I found tracking programming language popularity.</p>
@@ -246,12 +247,11 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x11b929978&gt;
+<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x11cf903c8&gt;
 </pre></div>
 
 
-<p><img alt="png" src="images/languages_19_2.png"></p>
-<p><img alt="png" src="images/languages_19_3.png"></p>
+<p><img alt="png" src="images/languages_20_2.png"></p>
 <p><a id='multi_series_line_chart'></a></p>
 <h4>Tips and Tricks (make it easier to see!)</h4>
 <p>That's a bit hard to see on one page... we can play around with the following:</p>
@@ -280,12 +280,11 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x11b9a0fd0&gt;
+<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x11cb12f28&gt;
 </pre></div>
 
 
-<p><img alt="png" src="images/languages_24_2.png"></p>
-<p><img alt="png" src="images/languages_24_3.png"></p>
+<p><img alt="png" src="images/languages_25_2.png"></p>
 <h2>Spoken Languages</h2>
 <hr>
 <p>On the other hand, there are <strong>7,111 living spoken languages</strong> that we know of to date according to <a href="https://www.ethnologue.com/">Ethnologue 2019, 22nd edition</a>! I am supposedly trilingual but admittedly don't keep up the practice! I always wonder if I should be keeping up with these spoken languages... Spoken (or programming) languages are constantly evolving and their popularity shaped by the people and technolgies around the world.</p>
@@ -481,12 +480,11 @@ dtype: object
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x11b913780&gt;
+<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x11d0302b0&gt;
 </pre></div>
 
 
-<p><img alt="png" src="images/languages_38_2.png"></p>
-<p><img alt="png" src="images/languages_38_3.png"></p>
+<p><img alt="png" src="images/languages_39_2.png"></p>
 <p><a id='stacked_bar_chart'></a></p>
 <h4>Tips and Tricks (make it more interactive!)</h4>
 <p>There are a couple of things we may want to do to try to make it more fun:</p>
@@ -560,12 +558,11 @@ dtype: object
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x11a804198&gt;
+<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x10c57feb8&gt;
 </pre></div>
 
 
-<p><img alt="png" src="images/languages_48_2.png"></p>
-<p><img alt="png" src="images/languages_48_3.png"></p>
+<p><img alt="png" src="images/languages_49_2.png"></p>
 <p>You can try clicking the radio buttons on the legend and see how the chart changes! I'm still fairly new to Altair and all, so if there are better ways of doing what I tried, I'm open to feedback! Altair is also relatively new and consistently being updated so I'm sure that soon enough, there may be more concise ways of achieving the same charts.</p>
 <p><strong>So... any thoughts on new languages to learn this year?</strong></p>
   </div>
