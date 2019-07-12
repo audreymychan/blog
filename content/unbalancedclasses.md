@@ -1,5 +1,6 @@
-Title: How to Handle Unbalanced Classes: imbalanced-learn
+Title: How to Handle Unbalanced Classes
 Date: 2019-04-15 23:40
+Category: Preprocessing
 Tags: imblearn
 Slug: unbalancedclasses
 
@@ -158,6 +159,10 @@ left | right
 ![png](images/unbalancedclasses_14_3.png)
 
 
+
+![png](images/unbalancedclasses_14_4.png)
+
+
 As you can see this is problematic when making predictions on the test data. Even though the accuracy score is high, our model can not identify Class 0 at all (no blue dot present) and some of the Class 1 data are being predicted as Class 2. 
 
 ## Over-sampling Methods
@@ -193,6 +198,10 @@ rebalance_train_test_logreg(X, y, SMOTE(), 'SMOTE')
 ![png](images/unbalancedclasses_18_3.png)
 
 
+
+![png](images/unbalancedclasses_18_4.png)
+
+
 Compared to the unbalanced classes, here we can identify some of the blue (Class 0) dots. That's why the recall score for that Class increased from 0 to 0.67. However, you can see that with this method, it also over identifies the blue (Class 0) and yellow (Class 1) dots. This can also be shown by lower precision scores for these two classes. 
 
 ### 2. ADASYN
@@ -223,6 +232,10 @@ rebalance_train_test_logreg(X, y, ADASYN(), 'ADASYN')
 ![png](images/unbalancedclasses_21_3.png)
 
 
+
+![png](images/unbalancedclasses_21_4.png)
+
+
 The predictions looks very similar after resampling with ADASYN looks very similar to SMOTE, maybe a few more yellow (Class 1) data are now being predicted correctly. 
 
 ### 3. BorderlineSMOTE
@@ -251,6 +264,10 @@ rebalance_train_test_logreg(X, y, BorderlineSMOTE(), 'BorderlineSMOTE')
 
 
 ![png](images/unbalancedclasses_24_3.png)
+
+
+
+![png](images/unbalancedclasses_24_4.png)
 
 
 Predictions don't look too bad! An improvement from SMOTE and ADASYN. Accuracy score has increased to 0.955 but also the precision and recall scores for the minority classes also increased on average.  
@@ -289,6 +306,10 @@ rebalance_train_test_logreg(X, y, SMOTETomek(), 'SMOTETomek')
 ![png](images/unbalancedclasses_28_3.png)
 
 
+
+![png](images/unbalancedclasses_28_4.png)
+
+
 ### 2. SMOTEENN
 This method applies the SMOTE method described above then undersamples based on `EditedNearestNeighbours`, which applies a nearest-neighbors algorithm and removes samples if they do not agree “enough” with their neighboorhood.
 
@@ -322,6 +343,10 @@ rebalance_train_test_logreg(X, y, SMOTEENN(), 'SMOTEENN')
 
 
 ![png](images/unbalancedclasses_32_3.png)
+
+
+
+![png](images/unbalancedclasses_32_4.png)
 
 
 ## Advantages and Limitations of SMOTE

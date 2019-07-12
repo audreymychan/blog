@@ -1,17 +1,20 @@
-Title: Hello, World! What Languages to Learn in 2019? (Altair visualizations)
+Title: 你好世界! Visualizing top spoken languages with Altair
 Date: 2019-04-01 22:35
-Tags: python languages altair visualization
+Category: Visualization
+Tags: altair
 Slug: languages
 
-It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there was some unlearning and relearning to do. In particular, I found myself consistently trying to reach for a for-from-until-increment-loop in Python, which doesn't exist!
+It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, numpy, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there was some unlearning and relearning to do. In particular, I found myself consistently trying to reach for a for-from-until-increment-loop in Python, which doesn't exist!
 
-While I'm getting the hang of Python, I'm starting to appreciate the ease of use, code readability, and structure of the language. This brought me to something I was curious about... What are the top programming languages today? Am I learning the "right" language? How about spoken languages? What will strengthen my portfolio?
+While I'm getting the hang of Python, I'm starting to appreciate the ease of use, code readability, and structure of the language. This brought me to something I was curious about... What are the top programming languages today? Am I learning the "right" language? How about spoken languages?
 
 Like anything else, what do you do when questions arise? I googled it! This is not meant to tell you what languages to pick up or to drop but mainly to fulfill my curiosity. *No extensive research was done during this sitting*. I did take some basic data though and played around with Altair visualizations... so read on if you'd like to learn some tips and tricks for visualization.
 
-[(Interactive) Multi-series Line Chart - with color and chart size modification](#multi_series_line_chart)
+**Note:** Interactivity of the charts below are not available right now. This is something I look to fix in this post later. This is an [known issue](https://github.com/altair-viz/altair/issues/767) when converting Jupyter notebook to HTML files, interactivity is lost. Currently no package that uses jupyterlab frontend extensions will render correctly in nbconvert. In the meantime, links to videos are included to see this interactivity. Of course, you can run your own code to try them out on your system. 
 
-[(Interactive) Horizontal Stacked Bar Chart - with tooltip, selection, and filtering](#stacked_bar_chart)
+[(Interactive) Multi-series Line Chart - with color and chart size modification](https://youtu.be/YpO2C04cgwU)
+
+[(Interactive) Horizontal Stacked Bar Chart - with tooltip, selection, and filtering](https://youtu.be/4jsIbqCqxZc)
 
 ## Programming Languages
 
@@ -228,7 +231,7 @@ alt.Chart(long).mark_line().encode(
 ```
 
 
-    <vega.vegalite.VegaLite at 0x11b929978>
+    <vega.vegalite.VegaLite at 0x11cf903c8>
 
 
 
@@ -239,7 +242,7 @@ alt.Chart(long).mark_line().encode(
 
 
 
-![png](images/languages_19_2.png)
+![png](images/languages_20_2.png)
 
 
 <a id='multi_series_line_chart'></a>
@@ -272,7 +275,7 @@ alt.Chart(long).mark_line().encode(
 ```
 
 
-    <vega.vegalite.VegaLite at 0x11b9a0fd0>
+    <vega.vegalite.VegaLite at 0x11cb12f28>
 
 
 
@@ -283,7 +286,7 @@ alt.Chart(long).mark_line().encode(
 
 
 
-![png](images/languages_24_2.png)
+![png](images/languages_25_2.png)
 
 
 ## Spoken Languages
@@ -511,7 +514,7 @@ alt.Chart(l1_l2).mark_bar().encode(
 ```
 
 
-    <vega.vegalite.VegaLite at 0x11b913780>
+    <vega.vegalite.VegaLite at 0x11d0302b0>
 
 
 
@@ -522,7 +525,7 @@ alt.Chart(l1_l2).mark_bar().encode(
 
 
 
-![png](images/languages_38_2.png)
+![png](images/languages_39_2.png)
 
 
 <a id='stacked_bar_chart'></a>
@@ -601,7 +604,7 @@ total_bar + l1_l2_bar | legend
 ```
 
 
-    <vega.vegalite.VegaLite at 0x11a804198>
+    <vega.vegalite.VegaLite at 0x10c57feb8>
 
 
 
@@ -612,7 +615,7 @@ total_bar + l1_l2_bar | legend
 
 
 
-![png](images/languages_48_2.png)
+![png](images/languages_49_2.png)
 
 
 You can try clicking the radio buttons on the legend and see how the chart changes! I'm still fairly new to Altair and all, so if there are better ways of doing what I tried, I'm open to feedback! Altair is also relatively new and consistently being updated so I'm sure that soon enough, there may be more concise ways of achieving the same charts.
