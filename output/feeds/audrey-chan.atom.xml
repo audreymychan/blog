@@ -1,5 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Audrey Chan - Audrey Chan</title><link href="https://audreymychan.github.io/blog/" rel="alternate"></link><link href="https://audreymychan.github.io/blog/feeds/audrey-chan.atom.xml" rel="self"></link><id>https://audreymychan.github.io/blog/</id><updated>2019-04-15T23:40:00-04:00</updated><entry><title>How to Handle Unbalanced Classes</title><link href="https://audreymychan.github.io/blog/unbalancedclasses.html" rel="alternate"></link><published>2019-04-15T23:40:00-04:00</published><updated>2019-04-15T23:40:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-15:/blog/unbalancedclasses.html</id><summary type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost constraints. For example, if you consider classification problems such as non-fraud vs fraud and no-cancer vs cancer, fraudulent transactions and cancer patients are more rare than normal transactions and healthy patients. Other examples include oil spill detection, network intrusion detection, other rare diseases, etc.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Audrey Chan - Audrey Chan</title><link href="https://audreymychan.github.io/blog/" rel="alternate"></link><link href="https://audreymychan.github.io/blog/feeds/audrey-chan.atom.xml" rel="self"></link><id>https://audreymychan.github.io/blog/</id><updated>2019-05-31T16:00:00-04:00</updated><entry><title>Smile Detection using Convolutional Neural Networks</title><link href="https://audreymychan.github.io/blog/dadjokesforsmiles.html" rel="alternate"></link><published>2019-05-31T16:00:00-04:00</published><updated>2019-05-31T16:00:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-05-31:/blog/dadjokesforsmiles.html</id><summary type="html">&lt;p&gt;Smile detection applications are countless from activating a camera shutter automatically, enhancing human-robot interaction, to being incorporated into assistive communication devices for people with disabilities. Using deep learning convolutional neural network algorithms, a smile detection algorithm with an accuracy of 89% was achieved!&lt;/p&gt;
+&lt;p&gt;&lt;img style="float:left; margin:0px 10px 0px 0;" src="./images/dad_black.png" alt="Dad black icon" width="30"/&gt; As a project I created &lt;a href="https://github.com/audreymychan/djsmile"&gt;Dad Jokes …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;Smile detection applications are countless from activating a camera shutter automatically, enhancing human-robot interaction, to being incorporated into assistive communication devices for people with disabilities. Using deep learning convolutional neural network algorithms, a smile detection algorithm with an accuracy of 89% was achieved!&lt;/p&gt;
+&lt;p&gt;&lt;img style="float:left; margin:0px 10px 0px 0;" src="./images/dad_black.png" alt="Dad black icon" width="30"/&gt; As a project I created &lt;a href="https://github.com/audreymychan/djsmile"&gt;Dad Jokes for Smiles&lt;/a&gt;, a Flask-powered web application to showcase a smile detection algorithm trained using convolutional neural networks. It takes input from a user's webcam and returns predictions on how much they're smiling! It also provides random dad jokes from &lt;em&gt;icanhazdadjoke&lt;/em&gt;'s API for fun and because why not.&lt;/p&gt;
+&lt;h2&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Motivation for the project came from a previous program I wrote to detect smiles 7 years ago where the algorithm was based on my naive knowledge of what it means for someone to be smiling. For example, I detected the mouth using edge detection then identified smiles based on color pixel changes (red vs white). &lt;/p&gt;
+&lt;h3&gt;Problem&lt;/h3&gt;
+&lt;p&gt;Of course this was highly sensitive to noise (i.e. lighting, face orientation, etc). Nowadays with more computing power, we can simply use machine learning to do a better job and remove human bias! Convolutional Neural Networks (CNNs) can find new variables we didn't even know matter and their weights to improve our model. Hypothetically, it might even determine how much ones's crow's feet around the eye impact smile predictions.&lt;/p&gt;
+&lt;h2&gt;Demo Video&lt;/h2&gt;
+&lt;p&gt;Click the screenshot below to see a demo.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=g3G3tXIf4fk"&gt;&lt;img alt="App screen recording" src="https://img.youtube.com/vi/g3G3tXIf4fk/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Process&lt;/h2&gt;
+&lt;h3&gt;&lt;img style="float:left; margin:0px 10px 10px 0;" src="./images/scraper.png" alt="scraper" width="30"/&gt; Web Scraping&lt;/h3&gt;
+&lt;p&gt;Total of 8,600 images were scraped from Getty Images based on searches for "smile" and "no smile".&lt;/p&gt;
+&lt;p&gt;&lt;img style="float:left; margin:2px 5px 0px 0;" src="./images/smile_example_1.jpg" alt="smile_example_1" width="100"/&gt;
+&lt;img style="float:left; margin:2px 5px 0px 0;" src="./images/smile_example_2.jpg" alt="smile_example_2" width="100"/&gt;
+&lt;img style="float:left; margin:2px 5px 0px 0;" src="./images/no_smile_example_1.jpg" alt="no_smile_example_1" width="100"/&gt;
+&lt;img style="float:left; margin:2px 5px 0px 0;" src="./images/no_smile_example_2.jpg" alt="no_smile_example_2" width="100"/&gt;
+&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;/p&gt;
+&lt;p&gt;Refer to &lt;code&gt;getty_scraper.py&lt;/code&gt; and images folder on my &lt;a href="https://github.com/audreymychan/djsmile"&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Tools used:&lt;/strong&gt; &lt;code&gt;requests&lt;/code&gt;, &lt;code&gt;BeautifulSoup&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;&lt;img style="float:left; margin:0px 10px 10px 0;" src="./images/edit.png" alt="edit" width="30"/&gt; Image Pre-processing&lt;/h3&gt;
+&lt;p&gt;Images collected were then:
+- cropped with a bounding box around faces detected
+- converted to grayscale
+- resized down to 100 x 100 px
+- convert into an array
+- normalized&lt;/p&gt;
+&lt;p&gt;Image dataset was split into a training set and a test set (for model evaluation).&lt;/p&gt;
+&lt;p&gt;Random transformations and normalization operations (i.e. adjusting for rotation and lighting) were configured on the training set to create more variation for the model to learn.&lt;/p&gt;
+&lt;p&gt;&lt;img style="float:left; margin:2px 5px 0px 0;" src="./images/grey_crop_smile_1.jpg" alt="grey_crop_smile_1" width="100"/&gt;
+&lt;img style="float:left; margin:2px 5px 0px 0;" src="./images/grey_crop_smile_2.jpg" alt="grey_crop_smile_2" width="100"/&gt;
+&lt;img style="float:left; margin:2px 5px 0px 0;" src="./images/grey_crop_no_smile_1.jpg" alt="grey_crop_no_smile_1" width="100"/&gt;
+&lt;img style="float:left; margin:2px 5px 0px 0;" src="./images/grey_crop_no_smile_2.jpg" alt="grey_crop_no_smile_2" width="100"/&gt;
+&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Image to array example (each pixel ranging from 0 to 255):&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img style="float:left;" src="./images/img_to_array.gif" alt="img_to_array" width="100"/&gt;
+&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;/p&gt;
+&lt;p&gt;Refer to &lt;code&gt;cnn_model_training.ipynb&lt;/code&gt; and images folder on my &lt;a href="https://github.com/audreymychan/djsmile"&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Tools used:&lt;/strong&gt; &lt;code&gt;PIL&lt;/code&gt; - Image, &lt;code&gt;face_recognition&lt;/code&gt;, &lt;code&gt;tensorflow.keras&lt;/code&gt; - array_to_img, img_to_array, ImageDataGenerator, to_categorical, &lt;code&gt;sklearn&lt;/code&gt; - MinMaxScaler, LabelEncoder, train_test_split&lt;/p&gt;
+&lt;h3&gt;&lt;img style="float:left; margin:0px 10px 10px 0;" src="./images/training.png" alt="training" width="30"/&gt; Training the Model - Convolutional Neural Network (CNN)&lt;/h3&gt;
+&lt;p&gt;A convolutional neural network model was trained using the images.&lt;/p&gt;
+&lt;p&gt;Refer to &lt;code&gt;cnn_model_training.ipynb&lt;/code&gt; for layers and weights used in the CNN on my &lt;a href="https://github.com/audreymychan/djsmile"&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Tools used:&lt;/strong&gt; &lt;code&gt;tensorflow.keras&lt;/code&gt; - Sequential, Input, Conv2D, MaxPooling2D, Dropout, Dense, Flatten, EarlyStopping&lt;/p&gt;
+&lt;h3&gt;&lt;img style="float:left; margin:0px 10px 10px 0;" src="./images/save.png" alt="save" width="30"/&gt; Saving the Model&lt;/h3&gt;
+&lt;p&gt;The CNN model and weights learned were saved and can be used to predict smile versus no smile on any new image coming from the app. The model was saved under &lt;code&gt;my_model.h5&lt;/code&gt; and MinMaxScaler under &lt;code&gt;scaler.save&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Refer to &lt;code&gt;cnn_model_training.ipynb&lt;/code&gt; and models folder on my &lt;a href="https://github.com/audreymychan/djsmile"&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Tools used:&lt;/strong&gt; &lt;code&gt;sklearn&lt;/code&gt; - joblib, &lt;code&gt;tensorflow.keras&lt;/code&gt; - save, load_model&lt;/p&gt;
+&lt;h3&gt;&lt;img style="float:left; margin:0px 10px 10px 0;" src="./images/internet.png" alt="internet" width="30"/&gt; Flask App&lt;/h3&gt;
+&lt;p&gt;The app can be generated with the following files:
+- &lt;code&gt;app.py&lt;/code&gt;: main application to run
+- &lt;code&gt;camera.py&lt;/code&gt;: contains Camera object to capture live video feed and &lt;code&gt;get_frame()&lt;/code&gt; function return image with a bounding box marked around the face and text indicating smile probabilities
+- &lt;code&gt;generate_joke.py&lt;/code&gt;: contains &lt;code&gt;get_joke()&lt;/code&gt; function to access &lt;em&gt;icanhazdadjoke&lt;/em&gt;'s API and return a random generated joke
+- &lt;code&gt;smile_recognition.py&lt;/code&gt;: contains &lt;code&gt;predict_smile()&lt;/code&gt; function which takes in an image frame and returns smile predictions&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Future Work&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Publish the app online&lt;ul&gt;
+&lt;li&gt;Make sure it's compatible on all platforms, devices, and camera settings&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Improve the CNN model&lt;ul&gt;
+&lt;li&gt;Some ideas for improvements include:&lt;ul&gt;
+&lt;li&gt;Relabel dataset to ensure images are correctly categorized as smile or no smile&lt;/li&gt;
+&lt;li&gt;Optimizing neural network parameters&lt;/li&gt;
+&lt;li&gt;Increasing dataset&lt;/li&gt;
+&lt;li&gt;Using larger image sizes&lt;/li&gt;
+&lt;li&gt;Using RGB images instead of grayscale&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;(nice to have) Improve UX/UI of the application&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;Keep smiling... it makes people wonder what you are up to.&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1&gt;How do Convolutional Neural Networks work?&lt;/h1&gt;
+&lt;p&gt;A Convolutional Neural Network (CNN) is an algorithm which can take in an image, assign importance (learnable weights and biases) to various aspects/features/filters in the image and be able to differentiate one from the other.&lt;/p&gt;
+&lt;p&gt;The architecture of a CNN can be thought to be similar to that of the connectivity pattern of neurons in the human brain. When we see different objects in the world, our brain identifies different features of an object and their importance (individually and all together), then triggers different neurons to be able to identify what it is.&lt;/p&gt;
+&lt;p&gt;A CNN typically consists of a number of convolutional and subsampling layers followed by fully connected layers. The benefit of CNN for image classification versus ordinary neural networks is a much more manageable number of parameters. The convolutional and subsampling layers help to reduce parameter/feature size while still retaining the most important information from pixels of an image.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. Convolution Steps:&lt;/strong&gt; Aims to extract features, using small squares of input data.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Example of a convulated feature map from a 5 x 5 image and the 3 x 3 (filter) matrix:&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="./images/convolution.gif" alt="convolution" width="300"/&gt;&lt;/p&gt;
+&lt;p&gt;Different filter matrices can detect different features from an image (i.e. edges, curves, etc.).&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Example of two different filter matrices (outline red and green) sliding over an image to extract different features from an image:&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="./images/convolution_2.gif" alt="convolution_2" width="400"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. RELU (Rectified Linear Unit) Steps:&lt;/strong&gt; Replaces all negative pixel values in the convulated feature map with zeros. Values of a feature map can range from -infinity to infinity. Without any bounds, "neurons" don't know when to "fire" or not. RELU helps determine when "neurons" should be activated.&lt;/p&gt;
+&lt;p&gt;&lt;img src="./images/relu.png" alt="relu" width="400"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. Pooling Steps:&lt;/strong&gt; Reduces dimensionality of a feature map.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Example of a Max Pooling operation:&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="./images/max_pooling.png" alt="max_pooling" width="300"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4. Fully Connected Layers:&lt;/strong&gt; The output from the convolutional and pooling layers represent high-level features of the input image. The purpose of the Fully Connected layer is to use these features for classifying the input image into various classes (in our case, smile versus no smile) based on the training image dataset.&lt;/p&gt;
+&lt;p&gt;&lt;img src="./images/fully_connected.png" alt="fully_connected" width="300"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5. Training with Backpropagation:&lt;/strong&gt; Convolution + Pooling layers act as Feature Extractors from the input image while Fully Connected layer acts as a classifier.&lt;/p&gt;
+&lt;p&gt;Convolution neural networks can have any number of convolution, pooling, and fully connected layers and nodes.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Example of a convolution neural network for predicting a boat class:&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="./images/convnet_training.png" alt="convnet_training" width="600"/&gt;&lt;/p&gt;
+&lt;p&gt;The training process consists of first initializing all filters and weights with random values. Then an image is put through the network to calculate its output probabilities for each class, along with the error. Based on the error, we backpropagate through the network to update the weights to minimize errors. This process is repeated for all images in the training dataset, with the goal to minimize a loss function (i.e. accuracy).&lt;/p&gt;</content><category term="CNN"></category></entry><entry><title>How to Handle Unbalanced Classes</title><link href="https://audreymychan.github.io/blog/unbalancedclasses.html" rel="alternate"></link><published>2019-04-15T23:40:00-04:00</published><updated>2019-04-15T23:40:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-15:/blog/unbalancedclasses.html</id><summary type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost constraints. For example, if you consider classification problems such as non-fraud vs fraud and no-cancer vs cancer, fraudulent transactions and cancer patients are more rare than normal transactions and healthy patients. Other examples include oil spill detection, network intrusion detection, other rare diseases, etc.&lt;/p&gt;
 &lt;h2&gt;Challenges&lt;/h2&gt;
 &lt;p&gt;Machine learning algorithms are built to minimize errors. For unbalanced datasets, since instances of the majority class is outnumbering the minority classes, the classifiers will more likely classify new data to the majority class. &lt;/p&gt;
 &lt;p&gt;For example, if you had a dataset with 90% no-cancer (healthy) and 10% cancer, the classifier will be bias to classify a new person as having no-cancer (healthy) as it would be 90% accurate. This leads to &lt;code&gt;False Negatives&lt;/code&gt;, which in the case of cancer, could be seen as more costly than having &lt;code&gt;False Positives&lt;/code&gt;! A patient is told they don't have cancer, when they actually do... do you see the problem here?&lt;/p&gt;
@@ -253,7 +350,7 @@
 &lt;li&gt;Change the algorithm&lt;/li&gt;
 &lt;li&gt;Re-sampling (undersampling, oversampling, under and oversampling)&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;You should always consider separation and sparsity of your classes, try different approaches, and see which one works best for different problems!&lt;/p&gt;</content><category term="imblearn"></category></entry><entry><title>你好世界! Visualizing top spoken languages with Altair</title><link href="https://audreymychan.github.io/blog/languages.html" rel="alternate"></link><published>2019-04-01T22:35:00-04:00</published><updated>2019-04-01T22:35:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-01:/blog/languages.html</id><summary type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, numpy, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, numpy, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there was some unlearning and relearning to do. In particular, I found myself consistently trying to reach for a for-from-until-increment-loop in Python, which doesn't exist!&lt;/p&gt;
+&lt;p&gt;You should always consider separation and sparsity of your classes, try different approaches, and see which one works best for different problems!&lt;/p&gt;</content><category term="imblearn"></category></entry><entry><title>你好世界! Visualizing Top Spoken Languages with Altair</title><link href="https://audreymychan.github.io/blog/languages.html" rel="alternate"></link><published>2019-04-01T22:35:00-04:00</published><updated>2019-04-01T22:35:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-01:/blog/languages.html</id><summary type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, numpy, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, numpy, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there was some unlearning and relearning to do. In particular, I found myself consistently trying to reach for a for-from-until-increment-loop in Python, which doesn't exist!&lt;/p&gt;
 &lt;p&gt;While I'm getting the hang of Python, I'm starting to appreciate the ease of use, code readability, and structure of the language. This brought me to something I was curious about... What are the top programming languages today? Am I learning the "right" language? How about spoken languages?&lt;/p&gt;
 &lt;p&gt;Like anything else, what do you do when questions arise? I googled it! This is not meant to tell you what languages to pick up or to drop but mainly to fulfill my curiosity. &lt;em&gt;No extensive research was done during this sitting&lt;/em&gt;. I did take some basic data though and played around with Altair visualizations... so read on if you'd like to learn some tips and tricks for visualization.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Interactivity of the charts below are not available right now. This is something I look to fix in this post later. This is an &lt;a href="https://github.com/altair-viz/altair/issues/767"&gt;known issue&lt;/a&gt; when converting Jupyter notebook to HTML files, interactivity is lost. Currently no package that uses jupyterlab frontend extensions will render correctly in nbconvert. In the meantime, links to videos are included to see this interactivity. Of course, you can run your own code to try them out on your system. &lt;/p&gt;
@@ -450,6 +547,7 @@
 
 
 &lt;p&gt;&lt;img alt="png" src="images/languages_20_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_20_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a id='multi_series_line_chart'&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;Tips and Tricks (make it easier to see!)&lt;/h4&gt;
 &lt;p&gt;That's a bit hard to see on one page... we can play around with the following:&lt;/p&gt;
@@ -483,6 +581,7 @@
 
 
 &lt;p&gt;&lt;img alt="png" src="images/languages_25_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_25_3.png"&gt;&lt;/p&gt;
 &lt;h2&gt;Spoken Languages&lt;/h2&gt;
 &lt;hr&gt;
 &lt;p&gt;On the other hand, there are &lt;strong&gt;7,111 living spoken languages&lt;/strong&gt; that we know of to date according to &lt;a href="https://www.ethnologue.com/"&gt;Ethnologue 2019, 22nd edition&lt;/a&gt;! I am supposedly trilingual but admittedly don't keep up the practice! I always wonder if I should be keeping up with these spoken languages... Spoken (or programming) languages are constantly evolving and their popularity shaped by the people and technolgies around the world.&lt;/p&gt;
@@ -683,6 +782,7 @@ dtype: object
 
 
 &lt;p&gt;&lt;img alt="png" src="images/languages_39_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_39_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a id='stacked_bar_chart'&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;Tips and Tricks (make it more interactive!)&lt;/h4&gt;
 &lt;p&gt;There are a couple of things we may want to do to try to make it more fun:&lt;/p&gt;
@@ -761,5 +861,6 @@ dtype: object
 
 
 &lt;p&gt;&lt;img alt="png" src="images/languages_49_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_49_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;You can try clicking the radio buttons on the legend and see how the chart changes! I'm still fairly new to Altair and all, so if there are better ways of doing what I tried, I'm open to feedback! Altair is also relatively new and consistently being updated so I'm sure that soon enough, there may be more concise ways of achieving the same charts.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;So... any thoughts on new languages to learn this year?&lt;/strong&gt;&lt;/p&gt;</content><category term="altair"></category></entry></feed>

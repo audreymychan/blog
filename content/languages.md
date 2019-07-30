@@ -1,4 +1,4 @@
-Title: 你好世界! Visualizing top spoken languages with Altair
+Title: 你好世界! Visualizing Top Spoken Languages with Altair
 Date: 2019-04-01 22:35
 Category: Visualization
 Tags: altair
@@ -245,6 +245,10 @@ alt.Chart(long).mark_line().encode(
 ![png](images/languages_20_2.png)
 
 
+
+![png](images/languages_20_3.png)
+
+
 <a id='multi_series_line_chart'></a>
 #### Tips and Tricks (make it easier to see!)
 That's a bit hard to see on one page... we can play around with the following:
@@ -287,6 +291,10 @@ alt.Chart(long).mark_line().encode(
 
 
 ![png](images/languages_25_2.png)
+
+
+
+![png](images/languages_25_3.png)
 
 
 ## Spoken Languages
@@ -528,6 +536,10 @@ alt.Chart(l1_l2).mark_bar().encode(
 ![png](images/languages_39_2.png)
 
 
+
+![png](images/languages_39_3.png)
+
+
 <a id='stacked_bar_chart'></a>
 #### Tips and Tricks (make it more interactive!) 
 There are a couple of things we may want to do to try to make it more fun:
@@ -616,6 +628,10 @@ total_bar + l1_l2_bar | legend
 
 
 ![png](images/languages_49_2.png)
+
+
+
+![png](images/languages_49_3.png)
 
 
 You can try clicking the radio buttons on the legend and see how the chart changes! I'm still fairly new to Altair and all, so if there are better ways of doing what I tried, I'm open to feedback! Altair is also relatively new and consistently being updated so I'm sure that soon enough, there may be more concise ways of achieving the same charts.
