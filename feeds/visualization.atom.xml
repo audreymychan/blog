@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Audrey Chan - Visualization</title><link href="https://audreymychan.github.io/blog/" rel="alternate"></link><link href="https://audreymychan.github.io/blog/feeds/visualization.atom.xml" rel="self"></link><id>https://audreymychan.github.io/blog/</id><updated>2019-04-01T22:35:00-04:00</updated><entry><title>你好世界! Visualizing top spoken languages with Altair</title><link href="https://audreymychan.github.io/blog/languages.html" rel="alternate"></link><published>2019-04-01T22:35:00-04:00</published><updated>2019-04-01T22:35:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-01:/blog/languages.html</id><summary type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, numpy, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, numpy, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there was some unlearning and relearning to do. In particular, I found myself consistently trying to reach for a for-from-until-increment-loop in Python, which doesn't exist!&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Audrey Chan - Visualization</title><link href="https://audreymychan.github.io/blog/" rel="alternate"></link><link href="https://audreymychan.github.io/blog/feeds/visualization.atom.xml" rel="self"></link><id>https://audreymychan.github.io/blog/</id><updated>2019-04-01T22:35:00-04:00</updated><entry><title>你好世界! Visualizing Top Spoken Languages with Altair</title><link href="https://audreymychan.github.io/blog/languages.html" rel="alternate"></link><published>2019-04-01T22:35:00-04:00</published><updated>2019-04-01T22:35:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-01:/blog/languages.html</id><summary type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, numpy, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's been three weeks into my Data Science immersive bootcamp and I'm having a blast coding again! I'm starting to get used to Python and new libraries (pandas, numpy, altair, etc.). If you're like me and you've previously programmed in other languages like C/Java, when learning any new language, there was some unlearning and relearning to do. In particular, I found myself consistently trying to reach for a for-from-until-increment-loop in Python, which doesn't exist!&lt;/p&gt;
 &lt;p&gt;While I'm getting the hang of Python, I'm starting to appreciate the ease of use, code readability, and structure of the language. This brought me to something I was curious about... What are the top programming languages today? Am I learning the "right" language? How about spoken languages?&lt;/p&gt;
 &lt;p&gt;Like anything else, what do you do when questions arise? I googled it! This is not meant to tell you what languages to pick up or to drop but mainly to fulfill my curiosity. &lt;em&gt;No extensive research was done during this sitting&lt;/em&gt;. I did take some basic data though and played around with Altair visualizations... so read on if you'd like to learn some tips and tricks for visualization.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Interactivity of the charts below are not available right now. This is something I look to fix in this post later. This is an &lt;a href="https://github.com/altair-viz/altair/issues/767"&gt;known issue&lt;/a&gt; when converting Jupyter notebook to HTML files, interactivity is lost. Currently no package that uses jupyterlab frontend extensions will render correctly in nbconvert. In the meantime, links to videos are included to see this interactivity. Of course, you can run your own code to try them out on your system. &lt;/p&gt;
@@ -196,6 +196,7 @@
 
 
 &lt;p&gt;&lt;img alt="png" src="images/languages_20_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_20_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a id='multi_series_line_chart'&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;Tips and Tricks (make it easier to see!)&lt;/h4&gt;
 &lt;p&gt;That's a bit hard to see on one page... we can play around with the following:&lt;/p&gt;
@@ -229,6 +230,7 @@
 
 
 &lt;p&gt;&lt;img alt="png" src="images/languages_25_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_25_3.png"&gt;&lt;/p&gt;
 &lt;h2&gt;Spoken Languages&lt;/h2&gt;
 &lt;hr&gt;
 &lt;p&gt;On the other hand, there are &lt;strong&gt;7,111 living spoken languages&lt;/strong&gt; that we know of to date according to &lt;a href="https://www.ethnologue.com/"&gt;Ethnologue 2019, 22nd edition&lt;/a&gt;! I am supposedly trilingual but admittedly don't keep up the practice! I always wonder if I should be keeping up with these spoken languages... Spoken (or programming) languages are constantly evolving and their popularity shaped by the people and technolgies around the world.&lt;/p&gt;
@@ -429,6 +431,7 @@ dtype: object
 
 
 &lt;p&gt;&lt;img alt="png" src="images/languages_39_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_39_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a id='stacked_bar_chart'&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;Tips and Tricks (make it more interactive!)&lt;/h4&gt;
 &lt;p&gt;There are a couple of things we may want to do to try to make it more fun:&lt;/p&gt;
@@ -507,5 +510,6 @@ dtype: object
 
 
 &lt;p&gt;&lt;img alt="png" src="images/languages_49_2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="images/languages_49_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;You can try clicking the radio buttons on the legend and see how the chart changes! I'm still fairly new to Altair and all, so if there are better ways of doing what I tried, I'm open to feedback! Altair is also relatively new and consistently being updated so I'm sure that soon enough, there may be more concise ways of achieving the same charts.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;So... any thoughts on new languages to learn this year?&lt;/strong&gt;&lt;/p&gt;</content><category term="altair"></category></entry></feed>
