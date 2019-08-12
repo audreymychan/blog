@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Audrey Chan - Audrey Chan</title><link href="https://audreymychan.github.io/blog/" rel="alternate"></link><link href="https://audreymychan.github.io/blog/feeds/audrey-chan.atom.xml" rel="self"></link><id>https://audreymychan.github.io/blog/</id><updated>2019-05-31T16:00:00-04:00</updated><entry><title>Smile Detection using Convolutional Neural Networks</title><link href="https://audreymychan.github.io/blog/dadjokesforsmiles.html" rel="alternate"></link><published>2019-05-31T16:00:00-04:00</published><updated>2019-05-31T16:00:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-05-31:/blog/dadjokesforsmiles.html</id><summary type="html">&lt;p&gt;Smile detection applications are countless from activating a camera shutter automatically, enhancing human-robot interaction, to being incorporated into assistive communication devices for people with disabilities. Using deep learning convolutional neural network algorithms, a smile detection algorithm with an accuracy of 89% was achieved!&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Audrey Chan - Audrey Chan</title><link href="https://audreymychan.github.io/blog/" rel="alternate"></link><link href="https://audreymychan.github.io/blog/feeds/audrey-chan.atom.xml" rel="self"></link><id>https://audreymychan.github.io/blog/</id><updated>2019-06-17T09:30:00-04:00</updated><entry><title>Smile Detection using Convolutional Neural Networks</title><link href="https://audreymychan.github.io/blog/dadjokesforsmiles.html" rel="alternate"></link><published>2019-06-17T09:30:00-04:00</published><updated>2019-06-17T09:30:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-06-17:/blog/dadjokesforsmiles.html</id><summary type="html">&lt;p&gt;Smile detection applications are countless from activating a camera shutter automatically, enhancing human-robot interaction, to being incorporated into assistive communication devices for people with disabilities. Using deep learning convolutional neural network algorithms, a smile detection algorithm with an accuracy of 89% was achieved!&lt;/p&gt;
 &lt;p&gt;&lt;img style="float:left; margin:0px 10px 0px 0;" src="./images/dad_black.png" alt="Dad black icon" width="30"/&gt; As a project I created &lt;a href="https://github.com/audreymychan/djsmile"&gt;Dad Jokes …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;Smile detection applications are countless from activating a camera shutter automatically, enhancing human-robot interaction, to being incorporated into assistive communication devices for people with disabilities. Using deep learning convolutional neural network algorithms, a smile detection algorithm with an accuracy of 89% was achieved!&lt;/p&gt;
 &lt;p&gt;&lt;img style="float:left; margin:0px 10px 0px 0;" src="./images/dad_black.png" alt="Dad black icon" width="30"/&gt; As a project I created &lt;a href="https://github.com/audreymychan/djsmile"&gt;Dad Jokes for Smiles&lt;/a&gt;, a Flask-powered web application to showcase a smile detection algorithm trained using convolutional neural networks. It takes input from a user's webcam and returns predictions on how much they're smiling! It also provides random dad jokes from &lt;em&gt;icanhazdadjoke&lt;/em&gt;'s API for fun and because why not.&lt;/p&gt;
 &lt;h2&gt;Motivation&lt;/h2&gt;
@@ -19,14 +19,20 @@
 &lt;img style="float:left; margin:2px 5px 0px 0;" src="./images/no_smile_example_2.jpg" alt="no_smile_example_2" width="100"/&gt;
 &lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;/p&gt;
 &lt;p&gt;Refer to &lt;code&gt;getty_scraper.py&lt;/code&gt; and images folder on my &lt;a href="https://github.com/audreymychan/djsmile"&gt;GitHub&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Tools used:&lt;/strong&gt; &lt;code&gt;requests&lt;/code&gt;, &lt;code&gt;BeautifulSoup&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Tools used:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;requests&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;BeautifulSoup&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3&gt;&lt;img style="float:left; margin:0px 10px 10px 0;" src="./images/edit.png" alt="edit" width="30"/&gt; Image Pre-processing&lt;/h3&gt;
-&lt;p&gt;Images collected were then:
-- cropped with a bounding box around faces detected
-- converted to grayscale
-- resized down to 100 x 100 px
-- convert into an array
-- normalized&lt;/p&gt;
+&lt;p&gt;Images collected were then:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;cropped with a bounding box around faces detected&lt;/li&gt;
+&lt;li&gt;converted to grayscale&lt;/li&gt;
+&lt;li&gt;resized down to 100 x 100 px&lt;/li&gt;
+&lt;li&gt;convert into an array&lt;/li&gt;
+&lt;li&gt;normalized&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;Image dataset was split into a training set and a test set (for model evaluation).&lt;/p&gt;
 &lt;p&gt;Random transformations and normalization operations (i.e. adjusting for rotation and lighting) were configured on the training set to create more variation for the model to learn.&lt;/p&gt;
 &lt;p&gt;&lt;img style="float:left; margin:2px 5px 0px 0;" src="./images/grey_crop_smile_1.jpg" alt="grey_crop_smile_1" width="100"/&gt;
@@ -38,21 +44,36 @@
 &lt;p&gt;&lt;img style="float:left;" src="./images/img_to_array.gif" alt="img_to_array" width="100"/&gt;
 &lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;/p&gt;
 &lt;p&gt;Refer to &lt;code&gt;cnn_model_training.ipynb&lt;/code&gt; and images folder on my &lt;a href="https://github.com/audreymychan/djsmile"&gt;GitHub&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Tools used:&lt;/strong&gt; &lt;code&gt;PIL&lt;/code&gt; - Image, &lt;code&gt;face_recognition&lt;/code&gt;, &lt;code&gt;tensorflow.keras&lt;/code&gt; - array_to_img, img_to_array, ImageDataGenerator, to_categorical, &lt;code&gt;sklearn&lt;/code&gt; - MinMaxScaler, LabelEncoder, train_test_split&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Tools used:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;PIL&lt;/code&gt; - Image&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;face_recognition&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tensorflow.keras&lt;/code&gt; - array_to_img, img_to_array, ImageDataGenerator, to_categorical&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sklearn&lt;/code&gt; - MinMaxScaler, LabelEncoder, train_test_split&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3&gt;&lt;img style="float:left; margin:0px 10px 10px 0;" src="./images/training.png" alt="training" width="30"/&gt; Training the Model - Convolutional Neural Network (CNN)&lt;/h3&gt;
 &lt;p&gt;A convolutional neural network model was trained using the images.&lt;/p&gt;
 &lt;p&gt;Refer to &lt;code&gt;cnn_model_training.ipynb&lt;/code&gt; for layers and weights used in the CNN on my &lt;a href="https://github.com/audreymychan/djsmile"&gt;GitHub&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Tools used:&lt;/strong&gt; &lt;code&gt;tensorflow.keras&lt;/code&gt; - Sequential, Input, Conv2D, MaxPooling2D, Dropout, Dense, Flatten, EarlyStopping&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Tools used:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;tensorflow.keras&lt;/code&gt; - Sequential, Input, Conv2D, MaxPooling2D, Dropout, Dense, Flatten, EarlyStopping&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3&gt;&lt;img style="float:left; margin:0px 10px 10px 0;" src="./images/save.png" alt="save" width="30"/&gt; Saving the Model&lt;/h3&gt;
 &lt;p&gt;The CNN model and weights learned were saved and can be used to predict smile versus no smile on any new image coming from the app. The model was saved under &lt;code&gt;my_model.h5&lt;/code&gt; and MinMaxScaler under &lt;code&gt;scaler.save&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Refer to &lt;code&gt;cnn_model_training.ipynb&lt;/code&gt; and models folder on my &lt;a href="https://github.com/audreymychan/djsmile"&gt;GitHub&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Tools used:&lt;/strong&gt; &lt;code&gt;sklearn&lt;/code&gt; - joblib, &lt;code&gt;tensorflow.keras&lt;/code&gt; - save, load_model&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Tools used:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;sklearn&lt;/code&gt; - joblib&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tensorflow.keras&lt;/code&gt; - save, load_model&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3&gt;&lt;img style="float:left; margin:0px 10px 10px 0;" src="./images/internet.png" alt="internet" width="30"/&gt; Flask App&lt;/h3&gt;
-&lt;p&gt;The app can be generated with the following files:
-- &lt;code&gt;app.py&lt;/code&gt;: main application to run
-- &lt;code&gt;camera.py&lt;/code&gt;: contains Camera object to capture live video feed and &lt;code&gt;get_frame()&lt;/code&gt; function return image with a bounding box marked around the face and text indicating smile probabilities
-- &lt;code&gt;generate_joke.py&lt;/code&gt;: contains &lt;code&gt;get_joke()&lt;/code&gt; function to access &lt;em&gt;icanhazdadjoke&lt;/em&gt;'s API and return a random generated joke
-- &lt;code&gt;smile_recognition.py&lt;/code&gt;: contains &lt;code&gt;predict_smile()&lt;/code&gt; function which takes in an image frame and returns smile predictions&lt;/p&gt;
+&lt;p&gt;The app can be generated with the following files:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;app.py&lt;/code&gt;: main application to run&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;camera.py&lt;/code&gt;: contains Camera object to capture live video feed and &lt;code&gt;get_frame()&lt;/code&gt; function return image with a bounding box marked around the face and text indicating smile probabilities&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;generate_joke.py&lt;/code&gt;: contains &lt;code&gt;get_joke()&lt;/code&gt; function to access &lt;em&gt;icanhazdadjoke&lt;/em&gt;'s API and return a random generated joke&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;smile_recognition.py&lt;/code&gt;: contains &lt;code&gt;predict_smile()&lt;/code&gt; function which takes in an image frame and returns smile predictions&lt;/li&gt;
+&lt;/ul&gt;
 &lt;hr&gt;
 &lt;h2&gt;Future Work&lt;/h2&gt;
 &lt;ul&gt;
@@ -73,10 +94,8 @@
 &lt;/li&gt;
 &lt;li&gt;(nice to have) Improve UX/UI of the application&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;Keep smiling... it makes people wonder what you are up to.&lt;/em&gt;&lt;/p&gt;
-&lt;hr&gt;
-&lt;h1&gt;How do Convolutional Neural Networks work?&lt;/h1&gt;
-&lt;p&gt;A Convolutional Neural Network (CNN) is an algorithm which can take in an image, assign importance (learnable weights and biases) to various aspects/features/filters in the image and be able to differentiate one from the other.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Keep smiling... it makes people wonder what you are up to.&lt;/em&gt;&lt;/p&gt;</content><category term="CNN"></category></entry><entry><title>How do Convolutional Neural Networks (CNNs) work?</title><link href="https://audreymychan.github.io/blog/cnn.html" rel="alternate"></link><published>2019-05-31T16:00:00-04:00</published><updated>2019-05-31T16:00:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-05-31:/blog/cnn.html</id><summary type="html">&lt;p&gt;A Convolutional Neural Network (CNN) is an algorithm which can take in an image, assign importance (learnable weights and biases) to various aspects/features/filters in the image and be able to differentiate one from the other.&lt;/p&gt;
+&lt;p&gt;The architecture of a CNN can be thought to be similar to that …&lt;/p&gt;</summary><content type="html">&lt;p&gt;A Convolutional Neural Network (CNN) is an algorithm which can take in an image, assign importance (learnable weights and biases) to various aspects/features/filters in the image and be able to differentiate one from the other.&lt;/p&gt;
 &lt;p&gt;The architecture of a CNN can be thought to be similar to that of the connectivity pattern of neurons in the human brain. When we see different objects in the world, our brain identifies different features of an object and their importance (individually and all together), then triggers different neurons to be able to identify what it is.&lt;/p&gt;
 &lt;p&gt;A CNN typically consists of a number of convolutional and subsampling layers followed by fully connected layers. The benefit of CNN for image classification versus ordinary neural networks is a much more manageable number of parameters. The convolutional and subsampling layers help to reduce parameter/feature size while still retaining the most important information from pixels of an image.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;1. Convolution Steps:&lt;/strong&gt; Aims to extract features, using small squares of input data.&lt;/p&gt;
@@ -96,7 +115,7 @@
 &lt;p&gt;Convolution neural networks can have any number of convolution, pooling, and fully connected layers and nodes.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Example of a convolution neural network for predicting a boat class:&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src="./images/convnet_training.png" alt="convnet_training" width="600"/&gt;&lt;/p&gt;
-&lt;p&gt;The training process consists of first initializing all filters and weights with random values. Then an image is put through the network to calculate its output probabilities for each class, along with the error. Based on the error, we backpropagate through the network to update the weights to minimize errors. This process is repeated for all images in the training dataset, with the goal to minimize a loss function (i.e. accuracy).&lt;/p&gt;</content><category term="CNN"></category></entry><entry><title>How to Handle Unbalanced Classes</title><link href="https://audreymychan.github.io/blog/unbalancedclasses.html" rel="alternate"></link><published>2019-04-15T23:40:00-04:00</published><updated>2019-04-15T23:40:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-15:/blog/unbalancedclasses.html</id><summary type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost constraints. For example, if you consider classification problems such as non-fraud vs fraud and no-cancer vs cancer, fraudulent transactions and cancer patients are more rare than normal transactions and healthy patients. Other examples include oil spill detection, network intrusion detection, other rare diseases, etc.&lt;/p&gt;
+&lt;p&gt;The training process consists of first initializing all filters and weights with random values. Then an image is put through the network to calculate its output probabilities for each class, along with the error. Based on the error, we backpropagate through the network to update the weights to minimize errors. This process is repeated for all images in the training dataset, with the goal to minimize a loss function (i.e. accuracy).&lt;/p&gt;</content><category term="CNN"></category></entry><entry><title>How to Handle Unbalanced Classes with imbalanced-learn</title><link href="https://audreymychan.github.io/blog/unbalancedclasses.html" rel="alternate"></link><published>2019-04-15T23:40:00-04:00</published><updated>2019-04-15T23:40:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-15:/blog/unbalancedclasses.html</id><summary type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost constraints. For example, if you consider classification problems such as non-fraud vs fraud and no-cancer vs cancer, fraudulent transactions and cancer patients are more rare than normal transactions and healthy patients. Other examples include oil spill detection, network intrusion detection, other rare diseases, etc.&lt;/p&gt;
 &lt;h2&gt;Challenges&lt;/h2&gt;
 &lt;p&gt;Machine learning algorithms are built to minimize errors. For unbalanced datasets, since instances of the majority class is outnumbering the minority classes, the classifiers will more likely classify new data to the majority class. &lt;/p&gt;
 &lt;p&gt;For example, if you had a dataset with 90% no-cancer (healthy) and 10% cancer, the classifier will be bias to classify a new person as having no-cancer (healthy) as it would be 90% accurate. This leads to &lt;code&gt;False Negatives&lt;/code&gt;, which in the case of cancer, could be seen as more costly than having &lt;code&gt;False Positives&lt;/code&gt;! A patient is told they don't have cancer, when they actually do... do you see the problem here?&lt;/p&gt;
@@ -130,6 +149,11 @@
 
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;imblearn.over_sampling&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;SMOTE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ADASYN&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;BorderlineSMOTE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SVMSMOTE&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;imblearn.combine&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;SMOTETomek&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SMOTEENN&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/Users/audreymychan/anaconda3/lib/python3.6/site-packages/sklearn/externals/six.py:31: DeprecationWarning: The module is deprecated in version 0.21 and will be removed in version 0.23 since we&amp;#39;ve dropped support for Python 2.7. Please rely on the official version of six (https://pypi.org/project/six/).
+  &amp;quot;(https://pypi.org/project/six/).&amp;quot;, DeprecationWarning)
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -225,12 +249,11 @@
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a25b3f2e8&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a192962b0&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_14_3.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_14_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;As you can see this is problematic when making predictions on the test data. Even though the accuracy score is high, our model can not identify Class 0 at all (no blue dot present) and some of the Class 1 data are being predicted as Class 2. &lt;/p&gt;
 &lt;h2&gt;Over-sampling Methods&lt;/h2&gt;
 &lt;p&gt;For more information on how samples are generated using these different methods, you can refer to &lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/over_sampling.html#mathematical-formulation"&gt;imblearn's documentation&lt;/a&gt;. &lt;/p&gt;
@@ -241,18 +264,17 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.785
- Precision Score: [0.06896552 0.34782609 0.99324324]
- Recall Score: [0.66666667 0.88888889 0.78191489]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.775
+ Precision Score: [0.06451613 0.34782609 0.99315068]
+ Recall Score: [0.66666667 0.88888889 0.7712766 ]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a25b3f5c0&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1052ffd68&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_18_3.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_18_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;Compared to the unbalanced classes, here we can identify some of the blue (Class 0) dots. That's why the recall score for that Class increased from 0 to 0.67. However, you can see that with this method, it also over identifies the blue (Class 0) and yellow (Class 1) dots. This can also be shown by lower precision scores for these two classes. &lt;/p&gt;
 &lt;h3&gt;2. ADASYN&lt;/h3&gt;
 &lt;p&gt;ADASYN stands for &lt;em&gt;Adaptive Synthetic&lt;/em&gt;, a slightly improved method from SMOTE. ADASYN works in a similiar way by interpolation, but focuses on generating synthetic samples next to original samples that are harder to learn than those that are easier to learn (focusing on outliers). Hence, this helps to shift the classification decision boundary towards the difficult samples.&lt;/p&gt;
@@ -260,18 +282,17 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.725
- Precision Score: [0.05882353 0.29032258 0.99259259]
- Recall Score: [0.66666667 1.         0.71276596]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.735
+ Precision Score: [0.06451613 0.28125    0.99270073]
+ Recall Score: [0.66666667 1.         0.72340426]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x110819940&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a192c6898&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_21_3.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_21_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;The predictions looks very similar after resampling with ADASYN looks very similar to SMOTE, maybe a few more yellow (Class 1) data are now being predicted correctly. &lt;/p&gt;
 &lt;h3&gt;3. BorderlineSMOTE&lt;/h3&gt;
 &lt;p&gt;BorderlineSMOTE is a variant of SMOTE, a method focused on samples near of the border of the optimal decision function and will generate samples in the opposite direction of the nearest neighbors class.&lt;/p&gt;
@@ -285,12 +306,11 @@
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a25b00b70&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a1926da20&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_24_3.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_24_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;Predictions don't look too bad! An improvement from SMOTE and ADASYN. Accuracy score has increased to 0.955 but also the precision and recall scores for the minority classes also increased on average.  &lt;/p&gt;
 &lt;h2&gt;Hybrid Approach (Combination of Over-sampling Under-sampling)&lt;/h2&gt;
 &lt;p&gt;With SMOTE above, you can see that the data got a lot noisier. If you choose to do so, under-sampling (after over-sampling) can help to clean this up in hopes to better our predictions. More information can be found in &lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/combine.html"&gt;imlearn's documentation&lt;/a&gt;.&lt;/p&gt;
@@ -302,18 +322,17 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.765
- Precision Score: [0.06060606 0.34782609 0.99305556]
- Recall Score: [0.66666667 0.88888889 0.7606383 ]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.77
+ Precision Score: [0.0625     0.31818182 0.99315068]
+ Recall Score: [0.66666667 0.77777778 0.7712766 ]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a258560b8&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a19341cc0&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_28_3.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_28_4.png"&gt;&lt;/p&gt;
 &lt;h3&gt;2. SMOTEENN&lt;/h3&gt;
 &lt;p&gt;This method applies the SMOTE method described above then undersamples based on &lt;code&gt;EditedNearestNeighbours&lt;/code&gt;, which applies a nearest-neighbors algorithm and removes samples if they do not agree “enough” with their neighboorhood.&lt;/p&gt;
 &lt;p&gt;Two selection criteria are currently available:&lt;/p&gt;
@@ -326,18 +345,6 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.69
- Precision Score: [0.03921569 0.36842105 0.99230769]
- Recall Score: [0.66666667 0.77777778 0.68617021]
-
-
-
-&amp;lt;vega.vegalite.VegaLite at 0x1a25856080&amp;gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_32_3.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_32_4.png"&gt;&lt;/p&gt;
 &lt;h2&gt;Advantages and Limitations of SMOTE&lt;/h2&gt;
 &lt;p&gt;SMOTE is a powerful over-sampling algorithm, which I prefer over the &lt;code&gt;imblearn.over_sampling.RandomOverSampler()&lt;/code&gt; and &lt;code&gt;imblearn.under_sampling.RandomUnderSampler()&lt;/code&gt; algorithms. Instead of randomly choosing samples from the minority class to duplicate or to remove, it goes beyond the naive way of creating or removing samples. This prevents overfitting (with created duplicated samples) and prevents the risk of randomly removing important samples. &lt;/p&gt;
 &lt;p&gt;However, one limitation of SMOTE is that it blindly re-samples the minority class without considering how sparse and separated the minority classes are compared to the majority class. In our example, you can see that the blue and yellow dots are somewhat spread into and within the red dots. With SMOTE, it blindly overpopulated these classes with it's algorithm, which increased class mixture. As a result, it predicted more blue and yellow dots than desired.&lt;/p&gt;
