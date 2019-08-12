@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Audrey Chan - Preprocessing</title><link href="https://audreymychan.github.io/blog/" rel="alternate"></link><link href="https://audreymychan.github.io/blog/feeds/preprocessing.atom.xml" rel="self"></link><id>https://audreymychan.github.io/blog/</id><updated>2019-04-15T23:40:00-04:00</updated><entry><title>How to Handle Unbalanced Classes</title><link href="https://audreymychan.github.io/blog/unbalancedclasses.html" rel="alternate"></link><published>2019-04-15T23:40:00-04:00</published><updated>2019-04-15T23:40:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-15:/blog/unbalancedclasses.html</id><summary type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost constraints. For example, if you consider classification problems such as non-fraud vs fraud and no-cancer vs cancer, fraudulent transactions and cancer patients are more rare than normal transactions and healthy patients. Other examples include oil spill detection, network intrusion detection, other rare diseases, etc.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Audrey Chan - Preprocessing</title><link href="https://audreymychan.github.io/blog/" rel="alternate"></link><link href="https://audreymychan.github.io/blog/feeds/preprocessing.atom.xml" rel="self"></link><id>https://audreymychan.github.io/blog/</id><updated>2019-04-15T23:40:00-04:00</updated><entry><title>How to Handle Unbalanced Classes with imbalanced-learn</title><link href="https://audreymychan.github.io/blog/unbalancedclasses.html" rel="alternate"></link><published>2019-04-15T23:40:00-04:00</published><updated>2019-04-15T23:40:00-04:00</updated><author><name>Audrey Chan</name></author><id>tag:audreymychan.github.io,2019-04-15:/blog/unbalancedclasses.html</id><summary type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost constraints. For example, if you consider classification problems such as non-fraud vs fraud and no-cancer vs cancer, fraudulent transactions and cancer patients are more rare than normal transactions and healthy patients. Other examples include oil spill detection, network intrusion detection, other rare diseases, etc.&lt;/p&gt;
 &lt;h2&gt;Challenges&lt;/h2&gt;
 &lt;p&gt;Machine learning algorithms are built to minimize errors. For unbalanced datasets, since instances of the majority class is outnumbering the minority classes, the classifiers will more likely classify new data to the majority class. &lt;/p&gt;
 &lt;p&gt;For example, if you had a dataset with 90% no-cancer (healthy) and 10% cancer, the classifier will be bias to classify a new person as having no-cancer (healthy) as it would be 90% accurate. This leads to &lt;code&gt;False Negatives&lt;/code&gt;, which in the case of cancer, could be seen as more costly than having &lt;code&gt;False Positives&lt;/code&gt;! A patient is told they don't have cancer, when they actually do... do you see the problem here?&lt;/p&gt;
@@ -33,6 +33,11 @@
 
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;imblearn.over_sampling&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;SMOTE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ADASYN&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;BorderlineSMOTE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SVMSMOTE&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;imblearn.combine&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;SMOTETomek&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SMOTEENN&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/Users/audreymychan/anaconda3/lib/python3.6/site-packages/sklearn/externals/six.py:31: DeprecationWarning: The module is deprecated in version 0.21 and will be removed in version 0.23 since we&amp;#39;ve dropped support for Python 2.7. Please rely on the official version of six (https://pypi.org/project/six/).
+  &amp;quot;(https://pypi.org/project/six/).&amp;quot;, DeprecationWarning)
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -128,12 +133,11 @@
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a25b3f2e8&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a192962b0&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_14_3.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_14_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;As you can see this is problematic when making predictions on the test data. Even though the accuracy score is high, our model can not identify Class 0 at all (no blue dot present) and some of the Class 1 data are being predicted as Class 2. &lt;/p&gt;
 &lt;h2&gt;Over-sampling Methods&lt;/h2&gt;
 &lt;p&gt;For more information on how samples are generated using these different methods, you can refer to &lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/over_sampling.html#mathematical-formulation"&gt;imblearn's documentation&lt;/a&gt;. &lt;/p&gt;
@@ -144,18 +148,17 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.785
- Precision Score: [0.06896552 0.34782609 0.99324324]
- Recall Score: [0.66666667 0.88888889 0.78191489]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.775
+ Precision Score: [0.06451613 0.34782609 0.99315068]
+ Recall Score: [0.66666667 0.88888889 0.7712766 ]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a25b3f5c0&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1052ffd68&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_18_3.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_18_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;Compared to the unbalanced classes, here we can identify some of the blue (Class 0) dots. That's why the recall score for that Class increased from 0 to 0.67. However, you can see that with this method, it also over identifies the blue (Class 0) and yellow (Class 1) dots. This can also be shown by lower precision scores for these two classes. &lt;/p&gt;
 &lt;h3&gt;2. ADASYN&lt;/h3&gt;
 &lt;p&gt;ADASYN stands for &lt;em&gt;Adaptive Synthetic&lt;/em&gt;, a slightly improved method from SMOTE. ADASYN works in a similiar way by interpolation, but focuses on generating synthetic samples next to original samples that are harder to learn than those that are easier to learn (focusing on outliers). Hence, this helps to shift the classification decision boundary towards the difficult samples.&lt;/p&gt;
@@ -163,18 +166,17 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.725
- Precision Score: [0.05882353 0.29032258 0.99259259]
- Recall Score: [0.66666667 1.         0.71276596]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.735
+ Precision Score: [0.06451613 0.28125    0.99270073]
+ Recall Score: [0.66666667 1.         0.72340426]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x110819940&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a192c6898&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_21_3.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_21_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;The predictions looks very similar after resampling with ADASYN looks very similar to SMOTE, maybe a few more yellow (Class 1) data are now being predicted correctly. &lt;/p&gt;
 &lt;h3&gt;3. BorderlineSMOTE&lt;/h3&gt;
 &lt;p&gt;BorderlineSMOTE is a variant of SMOTE, a method focused on samples near of the border of the optimal decision function and will generate samples in the opposite direction of the nearest neighbors class.&lt;/p&gt;
@@ -188,12 +190,11 @@
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a25b00b70&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a1926da20&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_24_3.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_24_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;Predictions don't look too bad! An improvement from SMOTE and ADASYN. Accuracy score has increased to 0.955 but also the precision and recall scores for the minority classes also increased on average.  &lt;/p&gt;
 &lt;h2&gt;Hybrid Approach (Combination of Over-sampling Under-sampling)&lt;/h2&gt;
 &lt;p&gt;With SMOTE above, you can see that the data got a lot noisier. If you choose to do so, under-sampling (after over-sampling) can help to clean this up in hopes to better our predictions. More information can be found in &lt;a href="https://imbalanced-learn.readthedocs.io/en/stable/combine.html"&gt;imlearn's documentation&lt;/a&gt;.&lt;/p&gt;
@@ -205,18 +206,17 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.765
- Precision Score: [0.06060606 0.34782609 0.99305556]
- Recall Score: [0.66666667 0.88888889 0.7606383 ]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.77
+ Precision Score: [0.0625     0.31818182 0.99315068]
+ Recall Score: [0.66666667 0.77777778 0.7712766 ]
 
 
 
-&amp;lt;vega.vegalite.VegaLite at 0x1a258560b8&amp;gt;
+&amp;lt;vega.vegalite.VegaLite at 0x1a19341cc0&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_28_3.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_28_4.png"&gt;&lt;/p&gt;
 &lt;h3&gt;2. SMOTEENN&lt;/h3&gt;
 &lt;p&gt;This method applies the SMOTE method described above then undersamples based on &lt;code&gt;EditedNearestNeighbours&lt;/code&gt;, which applies a nearest-neighbors algorithm and removes samples if they do not agree “enough” with their neighboorhood.&lt;/p&gt;
 &lt;p&gt;Two selection criteria are currently available:&lt;/p&gt;
@@ -229,18 +229,6 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Accuracy Score: 0.69
- Precision Score: [0.03921569 0.36842105 0.99230769]
- Recall Score: [0.66666667 0.77777778 0.68617021]
-
-
-
-&amp;lt;vega.vegalite.VegaLite at 0x1a25856080&amp;gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_32_3.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="png" src="images/unbalancedclasses_32_4.png"&gt;&lt;/p&gt;
 &lt;h2&gt;Advantages and Limitations of SMOTE&lt;/h2&gt;
 &lt;p&gt;SMOTE is a powerful over-sampling algorithm, which I prefer over the &lt;code&gt;imblearn.over_sampling.RandomOverSampler()&lt;/code&gt; and &lt;code&gt;imblearn.under_sampling.RandomUnderSampler()&lt;/code&gt; algorithms. Instead of randomly choosing samples from the minority class to duplicate or to remove, it goes beyond the naive way of creating or removing samples. This prevents overfitting (with created duplicated samples) and prevents the risk of randomly removing important samples. &lt;/p&gt;
 &lt;p&gt;However, one limitation of SMOTE is that it blindly re-samples the minority class without considering how sparse and separated the minority classes are compared to the majority class. In our example, you can see that the blue and yellow dots are somewhat spread into and within the red dots. With SMOTE, it blindly overpopulated these classes with it's algorithm, which increased class mixture. As a result, it predicted more blue and yellow dots than desired.&lt;/p&gt;

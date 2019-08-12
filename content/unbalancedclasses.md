@@ -1,4 +1,4 @@
-Title: How to Handle Unbalanced Classes
+Title: How to Handle Unbalanced Classes with imbalanced-learn
 Date: 2019-04-15 23:40
 Category: Preprocessing
 Tags: imblearn
@@ -47,6 +47,10 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score
 from imblearn.over_sampling import SMOTE, ADASYN, BorderlineSMOTE, SVMSMOTE
 from imblearn.combine import SMOTETomek, SMOTEENN
 ```
+
+    /Users/audreymychan/anaconda3/lib/python3.6/site-packages/sklearn/externals/six.py:31: DeprecationWarning: The module is deprecated in version 0.21 and will be removed in version 0.23 since we've dropped support for Python 2.7. Please rely on the official version of six (https://pypi.org/project/six/).
+      "(https://pypi.org/project/six/).", DeprecationWarning)
+
 
 
 ```python
@@ -145,7 +149,7 @@ left | right
 
 
 
-    <vega.vegalite.VegaLite at 0x1a25b3f2e8>
+    <vega.vegalite.VegaLite at 0x1a192962b0>
 
 
 
@@ -157,10 +161,6 @@ left | right
 
 
 ![png](images/unbalancedclasses_14_3.png)
-
-
-
-![png](images/unbalancedclasses_14_4.png)
 
 
 As you can see this is problematic when making predictions on the test data. Even though the accuracy score is high, our model can not identify Class 0 at all (no blue dot present) and some of the Class 1 data are being predicted as Class 2. 
@@ -178,13 +178,13 @@ SMOTE stands for *Synthetic Minority Over-sampling Technique*. It generates new 
 rebalance_train_test_logreg(X, y, SMOTE(), 'SMOTE')
 ```
 
-     Accuracy Score: 0.785
-     Precision Score: [0.06896552 0.34782609 0.99324324]
-     Recall Score: [0.66666667 0.88888889 0.78191489]
+     Accuracy Score: 0.775
+     Precision Score: [0.06451613 0.34782609 0.99315068]
+     Recall Score: [0.66666667 0.88888889 0.7712766 ]
 
 
 
-    <vega.vegalite.VegaLite at 0x1a25b3f5c0>
+    <vega.vegalite.VegaLite at 0x1052ffd68>
 
 
 
@@ -198,10 +198,6 @@ rebalance_train_test_logreg(X, y, SMOTE(), 'SMOTE')
 ![png](images/unbalancedclasses_18_3.png)
 
 
-
-![png](images/unbalancedclasses_18_4.png)
-
-
 Compared to the unbalanced classes, here we can identify some of the blue (Class 0) dots. That's why the recall score for that Class increased from 0 to 0.67. However, you can see that with this method, it also over identifies the blue (Class 0) and yellow (Class 1) dots. This can also be shown by lower precision scores for these two classes. 
 
 ### 2. ADASYN
@@ -212,13 +208,13 @@ ADASYN stands for *Adaptive Synthetic*, a slightly improved method from SMOTE. A
 rebalance_train_test_logreg(X, y, ADASYN(), 'ADASYN')
 ```
 
-     Accuracy Score: 0.725
-     Precision Score: [0.05882353 0.29032258 0.99259259]
-     Recall Score: [0.66666667 1.         0.71276596]
+     Accuracy Score: 0.735
+     Precision Score: [0.06451613 0.28125    0.99270073]
+     Recall Score: [0.66666667 1.         0.72340426]
 
 
 
-    <vega.vegalite.VegaLite at 0x110819940>
+    <vega.vegalite.VegaLite at 0x1a192c6898>
 
 
 
@@ -230,10 +226,6 @@ rebalance_train_test_logreg(X, y, ADASYN(), 'ADASYN')
 
 
 ![png](images/unbalancedclasses_21_3.png)
-
-
-
-![png](images/unbalancedclasses_21_4.png)
 
 
 The predictions looks very similar after resampling with ADASYN looks very similar to SMOTE, maybe a few more yellow (Class 1) data are now being predicted correctly. 
@@ -252,7 +244,7 @@ rebalance_train_test_logreg(X, y, BorderlineSMOTE(), 'BorderlineSMOTE')
 
 
 
-    <vega.vegalite.VegaLite at 0x1a25b00b70>
+    <vega.vegalite.VegaLite at 0x1a1926da20>
 
 
 
@@ -264,10 +256,6 @@ rebalance_train_test_logreg(X, y, BorderlineSMOTE(), 'BorderlineSMOTE')
 
 
 ![png](images/unbalancedclasses_24_3.png)
-
-
-
-![png](images/unbalancedclasses_24_4.png)
 
 
 Predictions don't look too bad! An improvement from SMOTE and ADASYN. Accuracy score has increased to 0.955 but also the precision and recall scores for the minority classes also increased on average.  
@@ -286,13 +274,13 @@ Alternatively, you can choose to resample the data by only undersampling using `
 rebalance_train_test_logreg(X, y, SMOTETomek(), 'SMOTETomek')
 ```
 
-     Accuracy Score: 0.765
-     Precision Score: [0.06060606 0.34782609 0.99305556]
-     Recall Score: [0.66666667 0.88888889 0.7606383 ]
+     Accuracy Score: 0.77
+     Precision Score: [0.0625     0.31818182 0.99315068]
+     Recall Score: [0.66666667 0.77777778 0.7712766 ]
 
 
 
-    <vega.vegalite.VegaLite at 0x1a258560b8>
+    <vega.vegalite.VegaLite at 0x1a19341cc0>
 
 
 
@@ -304,10 +292,6 @@ rebalance_train_test_logreg(X, y, SMOTETomek(), 'SMOTETomek')
 
 
 ![png](images/unbalancedclasses_28_3.png)
-
-
-
-![png](images/unbalancedclasses_28_4.png)
 
 
 ### 2. SMOTEENN
@@ -324,30 +308,6 @@ Alternatively, you can choose to resample the data by only undersampled using `i
 ```python
 rebalance_train_test_logreg(X, y, SMOTEENN(), 'SMOTEENN')
 ```
-
-     Accuracy Score: 0.69
-     Precision Score: [0.03921569 0.36842105 0.99230769]
-     Recall Score: [0.66666667 0.77777778 0.68617021]
-
-
-
-    <vega.vegalite.VegaLite at 0x1a25856080>
-
-
-
-
-
-    
-
-
-
-
-![png](images/unbalancedclasses_32_3.png)
-
-
-
-![png](images/unbalancedclasses_32_4.png)
-
 
 ## Advantages and Limitations of SMOTE
 SMOTE is a powerful over-sampling algorithm, which I prefer over the `imblearn.over_sampling.RandomOverSampler()` and `imblearn.under_sampling.RandomUnderSampler()` algorithms. Instead of randomly choosing samples from the minority class to duplicate or to remove, it goes beyond the naive way of creating or removing samples. This prevents overfitting (with created duplicated samples) and prevents the risk of randomly removing important samples. 

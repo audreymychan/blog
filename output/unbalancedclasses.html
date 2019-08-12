@@ -21,7 +21,7 @@
 
   <title>
     Audrey Chan
-&ndash; How to Handle Unbalanced Classes  </title>
+&ndash; How to Handle Unbalanced Classes with imbalanced-learn  </title>
 
 </head>
 
@@ -53,7 +53,7 @@
 
 <article>
   <div class="article_title">
-    <h1><a href="https://audreymychan.github.io/blog/unbalancedclasses.html">How to Handle Unbalanced Classes</a></h1>
+    <h1><a href="https://audreymychan.github.io/blog/unbalancedclasses.html">How to Handle Unbalanced Classes with imbalanced-learn</a></h1>
   </div>
   <div class="article_text">
     <p>In machine learning, working with unbalanced classes can be challenging. Unbalanced classes occurs when there's an unequal representation of classes, where the minority class is often of higher interest to us. This is prominent in areas where data collection of the minority classes is difficult due to time and cost constraints. For example, if you consider classification problems such as non-fraud vs fraud and no-cancer vs cancer, fraudulent transactions and cancer patients are more rare than normal transactions and healthy patients. Other examples include oil spill detection, network intrusion detection, other rare diseases, etc.</p>
@@ -90,6 +90,11 @@
 
 <span class="kn">from</span> <span class="nn">imblearn.over_sampling</span> <span class="kn">import</span> <span class="n">SMOTE</span><span class="p">,</span> <span class="n">ADASYN</span><span class="p">,</span> <span class="n">BorderlineSMOTE</span><span class="p">,</span> <span class="n">SVMSMOTE</span>
 <span class="kn">from</span> <span class="nn">imblearn.combine</span> <span class="kn">import</span> <span class="n">SMOTETomek</span><span class="p">,</span> <span class="n">SMOTEENN</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>/Users/audreymychan/anaconda3/lib/python3.6/site-packages/sklearn/externals/six.py:31: DeprecationWarning: The module is deprecated in version 0.21 and will be removed in version 0.23 since we&#39;ve dropped support for Python 2.7. Please rely on the official version of six (https://pypi.org/project/six/).
+  &quot;(https://pypi.org/project/six/).&quot;, DeprecationWarning)
 </pre></div>
 
 
@@ -185,12 +190,11 @@
 
 
 
-&lt;vega.vegalite.VegaLite at 0x1a25b3f2e8&gt;
+&lt;vega.vegalite.VegaLite at 0x1a192962b0&gt;
 </pre></div>
 
 
 <p><img alt="png" src="images/unbalancedclasses_14_3.png"></p>
-<p><img alt="png" src="images/unbalancedclasses_14_4.png"></p>
 <p>As you can see this is problematic when making predictions on the test data. Even though the accuracy score is high, our model can not identify Class 0 at all (no blue dot present) and some of the Class 1 data are being predicted as Class 2. </p>
 <h2>Over-sampling Methods</h2>
 <p>For more information on how samples are generated using these different methods, you can refer to <a href="https://imbalanced-learn.readthedocs.io/en/stable/over_sampling.html#mathematical-formulation">imblearn's documentation</a>. </p>
@@ -201,18 +205,17 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span> Accuracy Score: 0.785
- Precision Score: [0.06896552 0.34782609 0.99324324]
- Recall Score: [0.66666667 0.88888889 0.78191489]
+<div class="highlight"><pre><span></span> Accuracy Score: 0.775
+ Precision Score: [0.06451613 0.34782609 0.99315068]
+ Recall Score: [0.66666667 0.88888889 0.7712766 ]
 
 
 
-&lt;vega.vegalite.VegaLite at 0x1a25b3f5c0&gt;
+&lt;vega.vegalite.VegaLite at 0x1052ffd68&gt;
 </pre></div>
 
 
 <p><img alt="png" src="images/unbalancedclasses_18_3.png"></p>
-<p><img alt="png" src="images/unbalancedclasses_18_4.png"></p>
 <p>Compared to the unbalanced classes, here we can identify some of the blue (Class 0) dots. That's why the recall score for that Class increased from 0 to 0.67. However, you can see that with this method, it also over identifies the blue (Class 0) and yellow (Class 1) dots. This can also be shown by lower precision scores for these two classes. </p>
 <h3>2. ADASYN</h3>
 <p>ADASYN stands for <em>Adaptive Synthetic</em>, a slightly improved method from SMOTE. ADASYN works in a similiar way by interpolation, but focuses on generating synthetic samples next to original samples that are harder to learn than those that are easier to learn (focusing on outliers). Hence, this helps to shift the classification decision boundary towards the difficult samples.</p>
@@ -220,18 +223,17 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span> Accuracy Score: 0.725
- Precision Score: [0.05882353 0.29032258 0.99259259]
- Recall Score: [0.66666667 1.         0.71276596]
+<div class="highlight"><pre><span></span> Accuracy Score: 0.735
+ Precision Score: [0.06451613 0.28125    0.99270073]
+ Recall Score: [0.66666667 1.         0.72340426]
 
 
 
-&lt;vega.vegalite.VegaLite at 0x110819940&gt;
+&lt;vega.vegalite.VegaLite at 0x1a192c6898&gt;
 </pre></div>
 
 
 <p><img alt="png" src="images/unbalancedclasses_21_3.png"></p>
-<p><img alt="png" src="images/unbalancedclasses_21_4.png"></p>
 <p>The predictions looks very similar after resampling with ADASYN looks very similar to SMOTE, maybe a few more yellow (Class 1) data are now being predicted correctly. </p>
 <h3>3. BorderlineSMOTE</h3>
 <p>BorderlineSMOTE is a variant of SMOTE, a method focused on samples near of the border of the optimal decision function and will generate samples in the opposite direction of the nearest neighbors class.</p>
@@ -245,12 +247,11 @@
 
 
 
-&lt;vega.vegalite.VegaLite at 0x1a25b00b70&gt;
+&lt;vega.vegalite.VegaLite at 0x1a1926da20&gt;
 </pre></div>
 
 
 <p><img alt="png" src="images/unbalancedclasses_24_3.png"></p>
-<p><img alt="png" src="images/unbalancedclasses_24_4.png"></p>
 <p>Predictions don't look too bad! An improvement from SMOTE and ADASYN. Accuracy score has increased to 0.955 but also the precision and recall scores for the minority classes also increased on average.  </p>
 <h2>Hybrid Approach (Combination of Over-sampling Under-sampling)</h2>
 <p>With SMOTE above, you can see that the data got a lot noisier. If you choose to do so, under-sampling (after over-sampling) can help to clean this up in hopes to better our predictions. More information can be found in <a href="https://imbalanced-learn.readthedocs.io/en/stable/combine.html">imlearn's documentation</a>.</p>
@@ -262,18 +263,17 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span> Accuracy Score: 0.765
- Precision Score: [0.06060606 0.34782609 0.99305556]
- Recall Score: [0.66666667 0.88888889 0.7606383 ]
+<div class="highlight"><pre><span></span> Accuracy Score: 0.77
+ Precision Score: [0.0625     0.31818182 0.99315068]
+ Recall Score: [0.66666667 0.77777778 0.7712766 ]
 
 
 
-&lt;vega.vegalite.VegaLite at 0x1a258560b8&gt;
+&lt;vega.vegalite.VegaLite at 0x1a19341cc0&gt;
 </pre></div>
 
 
 <p><img alt="png" src="images/unbalancedclasses_28_3.png"></p>
-<p><img alt="png" src="images/unbalancedclasses_28_4.png"></p>
 <h3>2. SMOTEENN</h3>
 <p>This method applies the SMOTE method described above then undersamples based on <code>EditedNearestNeighbours</code>, which applies a nearest-neighbors algorithm and removes samples if they do not agree “enough” with their neighboorhood.</p>
 <p>Two selection criteria are currently available:</p>
@@ -286,18 +286,6 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span> Accuracy Score: 0.69
- Precision Score: [0.03921569 0.36842105 0.99230769]
- Recall Score: [0.66666667 0.77777778 0.68617021]
-
-
-
-&lt;vega.vegalite.VegaLite at 0x1a25856080&gt;
-</pre></div>
-
-
-<p><img alt="png" src="images/unbalancedclasses_32_3.png"></p>
-<p><img alt="png" src="images/unbalancedclasses_32_4.png"></p>
 <h2>Advantages and Limitations of SMOTE</h2>
 <p>SMOTE is a powerful over-sampling algorithm, which I prefer over the <code>imblearn.over_sampling.RandomOverSampler()</code> and <code>imblearn.under_sampling.RandomUnderSampler()</code> algorithms. Instead of randomly choosing samples from the minority class to duplicate or to remove, it goes beyond the naive way of creating or removing samples. This prevents overfitting (with created duplicated samples) and prevents the risk of randomly removing important samples. </p>
 <p>However, one limitation of SMOTE is that it blindly re-samples the minority class without considering how sparse and separated the minority classes are compared to the majority class. In our example, you can see that the blue and yellow dots are somewhat spread into and within the red dots. With SMOTE, it blindly overpopulated these classes with it's algorithm, which increased class mixture. As a result, it predicted more blue and yellow dots than desired.</p>
